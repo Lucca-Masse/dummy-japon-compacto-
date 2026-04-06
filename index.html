@@ -7,7 +7,7 @@
   <style>
     :root {
       --ink:#0D1117;--surface:#F5F6F8;--white:#FFFFFF;--accent:#C8102E;--accent2:#1A3A5C;
-      --gold:#C9A84C;--gold-lt:#F0DFA0;--green:#1D6B3B;--green-lt:#D4EDDA;--red-lt:#FDECEA;
+      --gold:#C8102E;--gold-lt:#FDECEA;--green:#1D6B3B;--green-lt:#D4EDDA;--red-lt:#FDECEA;
       --border:#D8DCE4;--muted:#6B7280;--radius-sm:6px;--radius-md:12px;--radius-lg:20px;
       --shadow-sm:0 1px 4px rgba(0,0,0,.07);--shadow-md:0 4px 20px rgba(0,0,0,.10);
       --shadow-lg:0 12px 48px rgba(0,0,0,.14);--font:'Inter','Segoe UI',system-ui,sans-serif;
@@ -41,15 +41,15 @@
     .nav-links a:hover{color:var(--white);background:#1E2633}
     .nav-cta{background:var(--accent)!important;color:#fff!important;padding:8px 20px!important;border-radius:8px!important;font-weight:700!important}
     .nav-cta:hover{background:#A50D24!important}
-    .lang-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold)!important;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;cursor:pointer;transition:background .2s}
-    .lang-pill:hover{background:rgba(201,168,76,.22)}
+    .lang-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(200,16,46,.12);border:1px solid rgba(200,16,46,.3);color:var(--gold)!important;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;cursor:pointer;transition:background .2s}
+    .lang-pill:hover{background:rgba(200,16,46,.22)}
 
     /* HERO */
     .hero{background:var(--ink);color:var(--white);padding:100px 0 80px;position:relative;overflow:hidden}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%,rgba(200,16,46,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 70%,rgba(26,58,92,.45) 0%,transparent 60%)}
     .hero .container{position:relative;z-index:1}
     .hero-grid{display:grid;grid-template-columns:1fr 440px;gap:60px;align-items:center}
-    .route-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.35);color:var(--gold);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:20px}
+    .route-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(200,16,46,.15);border:1px solid rgba(200,16,46,.35);color:var(--gold);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:20px}
     .hero h1{font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.08;margin-bottom:24px}
     .hero h1 em{font-style:normal;color:var(--accent)}
     .hero-sub{font-size:1.1rem;color:#93B5D4;max-width:520px;margin-bottom:40px;line-height:1.7}
@@ -297,7 +297,7 @@
           <a href="dashboard.html" style="display:block;padding:10px 16px;font-size:.85rem;font-weight:600;color:#8892A4;" onmouseover="this.style.color='#fff';this.style.background='#1E2633'" onmouseout="this.style.color='#8892A4';this.style.background='transparent'">📊 Dashboard de Maquinaria</a>
         </div>
       </li>
-      <li><a href="dashboard.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;">📊 Dashboard</a></li><li><a href="index-en.html" class="lang-pill">🇺🇸 English</a></li>
+      <li><a href="dashboard.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(200,16,46,.12);border:1px solid rgba(200,16,46,.3);color:var(--gold);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;">📊 Dashboard</a></li><li><a href="index-en.html" class="lang-pill">🇺🇸 English</a></li>
     </ul>
   </div>
 </nav>
@@ -334,7 +334,7 @@
           <div class="unit-card-header"><div><div class="unit-name">Cat 305E2 CR</div><div class="unit-year">2017 · Nagoya Lot</div></div><div><div class="unit-margin-val">34%</div><div class="unit-margin-label">Margen Est.</div></div></div>
           <div class="unit-meta"><span class="meta-pill">2,450 hrs</span><span class="meta-pill">5.0T</span><span class="meta-pill">Blade Incl.</span><span class="meta-pill" style="background:#1A2E14;color:#86EFAC;">Grado B+</span></div>
         </div>
-        <div class="route-display"><div class="route-steps"><span class="rs">🏭 YOK</span><div style="position:relative;flex:1;height:1px;background:linear-gradient(90deg,#2E3A4E,#C9A84C);margin:0 8px;"><span class="rs-days">~28 días · 40HC FCL</span></div><span class="rs">⚓ MZL</span></div></div>
+        <div class="route-display"><div class="route-steps"><span class="rs">🏭 YOK</span><div style="position:relative;flex:1;height:1px;background:linear-gradient(90deg,#2E3A4E,#C8102E);margin:0 8px;"><span class="rs-days">~28 días · 40HC FCL</span></div><span class="rs">⚓ MZL</span></div></div>
       </div>
     </div>
   </div>

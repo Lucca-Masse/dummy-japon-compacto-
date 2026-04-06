@@ -15,7 +15,7 @@
           colors: {
             navy: { 50:'#f0f4fa', 100:'#d9e4f5', 600:'#2a5298', 700:'#1e3d7a', 800:'#1a3260', 900:'#0f1e3d' },
             steel: { 400:'#7a9aba', 500:'#5a82a5', 600:'#4a6d8c' },
-            gold: { 400:'#d4a843', 500:'#c9a030' }
+            gold: { 400:'#C8102E', 500:'#C8102E' }
           }
         }
       }
@@ -164,8 +164,8 @@ function Logo({ size = 48 }) {
     <svg width={size} height={size} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#C9A84C"/>
-          <stop offset="100%" stopColor="#a07830"/>
+          <stop offset="0%" stopColor="#C8102E"/>
+          <stop offset="100%" stopColor="#A50D24"/>
         </linearGradient>
         <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#c8d8e8"/>
@@ -206,7 +206,7 @@ const INSURANCE_RATE                = 0.012;
 // ── RISK CONFIG (inline — no external dependency) ─────────────────────────
 function getRiskStyle(risk) {
   if (risk === 'low')    return { bg: 'bg-emerald-50', border: 'border-emerald-300', text: 'text-emerald-700', dot: 'bg-emerald-500' };
-  if (risk === 'medium') return { bg: 'bg-amber-50',   border: 'border-amber-300',   text: 'text-amber-700',   dot: 'bg-amber-500'   };
+  if (risk === 'medium') return { bg: 'bg-red-50',   border: 'border-red-300',   text: 'text-red-700',   dot: 'bg-red-600'   };
   return                        { bg: 'bg-red-50',     border: 'border-red-300',     text: 'text-red-700',     dot: 'bg-red-500'     };
 }
 
@@ -275,7 +275,7 @@ function Dashboard() {
           <div style={{display:'flex',alignItems:'center',gap:'10px',flexShrink:0}}>
             <div style={{width:'36px',height:'36px',background:'#C8102E',borderRadius:'8px',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,fontSize:'1.1rem',color:'#fff'}}>JC</div>
             <div>
-              <div style={{fontSize:'1.05rem',fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>Japón<span style={{color:'#C9A84C'}}>Compacto</span></div>
+              <div style={{fontSize:'1.05rem',fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>Japón<span style={{color:'#C8102E'}}>Compacto</span></div>
               <div style={{fontSize:'.72rem',color:'#8892A4',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase'}}>Import Logistics Dashboard</div>
             </div>
           </div>
@@ -299,7 +299,7 @@ function Dashboard() {
                     onMouseOver={e=>{e.currentTarget.style.color='#fff';e.currentTarget.style.background='#1E2633';}}
                     onMouseOut={e=>{e.currentTarget.style.color='#8892A4';e.currentTarget.style.background='transparent';}}
                   >📄 {t.home_page}</a>
-                  <div style={{display:'block',padding:'10px 16px',fontSize:'.85rem',fontWeight:700,color:'#C9A84C',background:'#1A2434',borderLeft:'3px solid #C8102E'}}>
+                  <div style={{display:'block',padding:'10px 16px',fontSize:'.85rem',fontWeight:700,color:'#C8102E',background:'#1A2434',borderLeft:'3px solid #C8102E'}}>
                     📊 {t.machinery_dashboard}
                   </div>
                 </div>
@@ -309,9 +309,9 @@ function Dashboard() {
             {/* Language toggle */}
             <button
               onClick={() => setLang(l => l === 'en' ? 'es' : 'en')}
-              style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'rgba(201,168,76,.12)',border:'1px solid rgba(201,168,76,.3)',color:'#C9A84C',fontSize:'.72rem',fontWeight:700,padding:'4px 12px',borderRadius:'100px',cursor:'pointer',transition:'background .2s'}}
-              onMouseOver={e=>e.currentTarget.style.background='rgba(201,168,76,.22)'}
-              onMouseOut={e=>e.currentTarget.style.background='rgba(201,168,76,.12)'}
+              style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'rgba(200,16,46,.12)',border:'1px solid rgba(200,16,46,.3)',color:'#C8102E',fontSize:'.72rem',fontWeight:700,padding:'4px 12px',borderRadius:'100px',cursor:'pointer',transition:'background .2s'}}
+              onMouseOver={e=>e.currentTarget.style.background='rgba(200,16,46,.22)'}
+              onMouseOut={e=>e.currentTarget.style.background='rgba(200,16,46,.12)'}
             >
               {lang === 'en' ? '🇲🇽 ES' : '🇺🇸 EN'}
             </button>
@@ -322,11 +322,11 @@ function Dashboard() {
       <div style={{maxWidth:'1160px',margin:'0 auto',padding:'40px 24px 64px'}}>
 
         {/* ── VOLATILITY DISCLAIMER ── */}
-        <div style={{marginBottom:'32px',background:'#FFFBEB',border:'2px solid #C9A84C',borderRadius:'12px',padding:'20px 24px',display:'flex',gap:'16px',alignItems:'flex-start'}}>
-          <div style={{color:'#C9A84C',fontSize:'1.4rem',flexShrink:0,marginTop:'2px'}}>⚠</div>
+        <div style={{marginBottom:'32px',background:'#FDECEA',border:'2px solid #C8102E',borderRadius:'12px',padding:'20px 24px',display:'flex',gap:'16px',alignItems:'flex-start'}}>
+          <div style={{color:'#C8102E',fontSize:'1.4rem',flexShrink:0,marginTop:'2px'}}>⚠</div>
           <div>
-            <div style={{fontWeight:700,color:'#7A5C00',fontSize:'.8rem',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:'6px'}}>{t.disclaimer_title}</div>
-            <p style={{color:'#92400E',fontSize:'.88rem',lineHeight:1.7}}>{t.disclaimer_body}</p>
+            <div style={{fontWeight:700,color:'#7F1D1D',fontSize:'.8rem',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:'6px'}}>{t.disclaimer_title}</div>
+            <p style={{color:'#7F1D1D',fontSize:'.88rem',lineHeight:1.7}}>{t.disclaimer_body}</p>
           </div>
         </div>
 
@@ -381,7 +381,7 @@ function Dashboard() {
               <div style={{color:'#8892A4',fontSize:'.78rem'}}>{containers} × {excsPerCont}</div>
               <div style={{marginTop:'16px',paddingTop:'16px',borderTop:'1px solid rgba(255,255,255,.1)'}}>
                 <div style={{fontSize:'.72rem',color:'#8892A4',marginBottom:'4px'}}>{t.mock_auction}</div>
-                <div style={{color:'#C9A84C',fontWeight:700,fontSize:'1.1rem'}}>{fmtK(costs.auctionTotal)} USD</div>
+                <div style={{color:'#C8102E',fontWeight:700,fontSize:'1.1rem'}}>{fmtK(costs.auctionTotal)} USD</div>
               </div>
             </div>
 
@@ -453,7 +453,7 @@ function Dashboard() {
               {[
                 { label: t.kpi_total_units,  value: totalExcavators,          suffix: t.excavators_label2, color: '#0D1117' },
                 { label: t.kpi_landed,        value: fmt(costs.landedPerUnit), suffix: t.usd,               color: '#1A3A5C' },
-                { label: t.kpi_capital,       value: fmtK(costs.auctionTotal), suffix: 'USD est.',           color: '#C9A84C' },
+                { label: t.kpi_capital,       value: fmtK(costs.auctionTotal), suffix: 'USD est.',           color: '#C8102E' },
                 { label: t.kpi_security,      value: fmt(costs.securityCost),  suffix: security==='A'?t.armed_escort:t.insurance, color: security==='A'?'#C8102E':'#1D6B3B' },
               ].map((kpi, i) => (
                 <div key={i} style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'20px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
@@ -566,7 +566,7 @@ function Dashboard() {
                     <div style={{textAlign:'center',flexShrink:0}}>
                       <div style={{fontSize:'.72rem',fontWeight:600,color:'#fff',whiteSpace:'nowrap'}}>{step}</div>
                     </div>
-                    {i < arr.length-1 && <div style={{flex:1,height:'1px',background:'linear-gradient(90deg,#374151,#C9A84C)',minWidth:'16px',margin:'0 6px'}}></div>}
+                    {i < arr.length-1 && <div style={{flex:1,height:'1px',background:'linear-gradient(90deg,#374151,#C8102E)',minWidth:'16px',margin:'0 6px'}}></div>}
                   </React.Fragment>
                 ))}
               </div>
