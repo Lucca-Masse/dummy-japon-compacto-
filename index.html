@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japón Compacto — Importación Directa de Maquinaria Compacta</title>
+  <style>
+    :root {
+      --ink:#0D1117;--surface:#F5F6F8;--white:#FFFFFF;--accent:#C8102E;--accent2:#1A3A5C;
+      --gold:#C9A84C;--gold-lt:#F0DFA0;--green:#1D6B3B;--green-lt:#D4EDDA;--red-lt:#FDECEA;
+      --border:#D8DCE4;--muted:#6B7280;--radius-sm:6px;--radius-md:12px;--radius-lg:20px;
+      --shadow-sm:0 1px 4px rgba(0,0,0,.07);--shadow-md:0 4px 20px rgba(0,0,0,.10);
+      --shadow-lg:0 12px 48px rgba(0,0,0,.14);--font:'Inter','Segoe UI',system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{font-family:var(--font);background:var(--surface);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+    img{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+    .container{max-width:1160px;margin:0 auto;padding:0 24px}
+    .section{padding:96px 0}.section--alt{background:var(--white)}.section--dark{background:var(--accent2);color:var(--white)}
+    .eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block}
+    .eyebrow--light{color:#93B5D4}
+    h1,h2,h3,h4{line-height:1.2;font-weight:800}
+    h2{font-size:clamp(1.75rem,3vw,2.6rem)}h3{font-size:1.25rem;font-weight:700}
+    .lead{font-size:1.1rem;color:var(--muted);max-width:640px}
+
+    /* TOPBAR */
+    .topbar{background:var(--ink);color:#8892A4;font-size:.78rem;padding:8px 0;border-bottom:1px solid #1E2633}
+    .topbar .container{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .topbar-flag{display:flex;align-items:center;gap:6px;font-weight:600;color:#CBD5E1}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;z-index:100;background:rgba(13,17,23,0.97);backdrop-filter:blur(12px);border-bottom:1px solid #1E2633;padding:0 24px}
+    .navbar .inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-mark{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff;letter-spacing:-.03em}
+    .logo-text{font-size:1.05rem;font-weight:800;color:var(--white);letter-spacing:-.02em}
+    .logo-text span{color:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+    .nav-links a{font-size:.88rem;font-weight:600;color:#8892A4;padding:6px 14px;border-radius:6px;transition:color .2s,background .2s}
+    .nav-links a:hover{color:var(--white);background:#1E2633}
+    .nav-cta{background:var(--accent)!important;color:#fff!important;padding:8px 20px!important;border-radius:8px!important;font-weight:700!important}
+    .nav-cta:hover{background:#A50D24!important}
+    .lang-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold)!important;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;cursor:pointer;transition:background .2s}
+    .lang-pill:hover{background:rgba(201,168,76,.22)}
+
+    /* HERO */
+    .hero{background:var(--ink);color:var(--white);padding:100px 0 80px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%,rgba(200,16,46,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 70%,rgba(26,58,92,.45) 0%,transparent 60%)}
+    .hero .container{position:relative;z-index:1}
+    .hero-grid{display:grid;grid-template-columns:1fr 440px;gap:60px;align-items:center}
+    .route-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.35);color:var(--gold);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:20px}
+    .hero h1{font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.08;margin-bottom:24px}
+    .hero h1 em{font-style:normal;color:var(--accent)}
+    .hero-sub{font-size:1.1rem;color:#93B5D4;max-width:520px;margin-bottom:40px;line-height:1.7}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-size:.92rem;font-weight:700;border:none;border-radius:10px;cursor:pointer;transition:all .2s;padding:13px 26px}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{background:#A50D24;transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,16,46,.4)}
+    .btn-outline{background:transparent;color:var(--white);border:1.5px solid #2E3A4E}
+    .btn-outline:hover{background:#1E2633;border-color:#3E5068}
+    .hero-stats{display:flex;gap:32px;margin-top:48px;flex-wrap:wrap}
+    .stat-num{font-size:2rem;font-weight:900;line-height:1;color:var(--white)}
+    .stat-num span{color:var(--gold)}
+    .stat-label{font-size:.78rem;color:#64748B;font-weight:600;letter-spacing:.04em;margin-top:3px}
+
+    /* HERO CARD */
+    .hero-card{background:#111827;border:1px solid #1E2633;border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-lg)}
+    .hero-card-title{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .unit-card{background:#0D1117;border:1px solid #1E2633;border-radius:var(--radius-md);padding:18px;margin-bottom:14px}
+    .unit-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+    .unit-name{font-size:1rem;font-weight:800;color:var(--white)}
+    .unit-year{font-size:.78rem;color:#64748B;margin-top:2px}
+    .unit-margin-val{font-size:1.3rem;font-weight:900;color:#4ADE80}
+    .unit-margin-label{font-size:.68rem;color:#64748B}
+    .unit-meta{display:flex;gap:12px;flex-wrap:wrap}
+    .meta-pill{font-size:.7rem;font-weight:600;color:#93B5D4;background:#1A2434;padding:3px 9px;border-radius:4px}
+    .route-display{margin-top:20px;padding-top:18px;border-top:1px solid #1E2633}
+    .route-steps{display:flex;align-items:center;font-size:.72rem;font-weight:700}
+    .rs{color:#CBD5E1;white-space:nowrap}
+    .rs-days{position:absolute;left:50%;top:-18px;transform:translateX(-50%);font-size:.65rem;color:var(--gold);white-space:nowrap;font-weight:700}
+
+    /* TRUST BAR */
+    .trust-bar{background:var(--ink);padding:24px 0;border-top:1px solid #1E2633;border-bottom:1px solid #1E2633}
+    .trust-bar .container{display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:28px}
+    .trust-item{display:flex;align-items:center;gap:10px}
+    .trust-icon{font-size:1.4rem}
+    .trust-text strong{display:block;font-size:.85rem;font-weight:700;color:var(--white)}
+    .trust-text span{font-size:.75rem;color:#64748B}
+
+    /* SECTION HEADERS */
+    .section-header{margin-bottom:52px}
+    .section-header h2{margin-bottom:12px}
+
+    /* MATRIX TABS */
+    .matrix-tabs{display:flex;gap:0;border-bottom:2px solid var(--border)}
+    .matrix-tab{padding:14px 28px;font-size:.88rem;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.02em}
+    .matrix-tab.active--buy{color:var(--green);border-bottom-color:var(--green)}
+    .matrix-tab.active--risk{color:var(--accent);border-bottom-color:var(--accent)}
+    .matrix-tab:hover{background:var(--surface)}
+    .matrix-panel{display:none}.matrix-panel.active{display:block}
+
+    /* BUY PANEL */
+    .buy-panel{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--green);border-radius:0 var(--radius-md) var(--radius-md) var(--radius-md);padding:36px}
+    .buy-intro{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;margin-bottom:32px}
+    .buy-intro p{color:var(--muted);font-size:.95rem;line-height:1.7}
+    .margin-badge{background:var(--green-lt);border:1px solid #A8D5B5;border-radius:var(--radius-md);padding:18px 22px;text-align:center;min-width:150px}
+    .margin-badge-range{font-size:1.8rem;font-weight:900;color:var(--green);line-height:1}
+    .margin-badge-label{font-size:.7rem;color:#4A8A5D;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+
+    .machine-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .machine-card{border:1.5px solid var(--border);border-radius:var(--radius-md);padding:22px;background:var(--surface);transition:box-shadow .2s,border-color .2s;cursor:pointer}
+    .machine-card:hover{box-shadow:var(--shadow-md);border-color:var(--green)}
+    .machine-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+    .machine-brand{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .machine-model{font-size:1.1rem;font-weight:800;color:var(--ink)}
+    .machine-margin{background:var(--green-lt);color:var(--green);font-size:1rem;font-weight:800;padding:6px 12px;border-radius:8px}
+    .machine-specs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .spec-chip{font-size:.72rem;font-weight:600;color:var(--accent2);background:#E8F0FA;padding:3px 10px;border-radius:4px}
+    .machine-why{font-size:.84rem;color:var(--muted);line-height:1.55}
+    .machine-why strong{color:var(--ink)}
+    .machine-signals{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .signal{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;color:var(--green)}
+    .signal::before{content:'✓'}
+
+    .golden-range{margin-top:28px;background:linear-gradient(135deg,#F9F6EE,#FDF3D4);border:1.5px solid #D4BC7A;border-radius:var(--radius-md);padding:20px 24px}
+    .golden-range h4{color:#7A5C00;margin-bottom:8px;font-size:.95rem}
+    .range-bar{display:flex;align-items:center;margin-bottom:10px}
+    .range-label{font-size:.72rem;font-weight:700;color:#7A5C00;white-space:nowrap}
+    .range-track{flex:1;height:8px;border-radius:4px;margin:0 10px;background:linear-gradient(90deg,#FDECEA 0%,#FFF3CD 20%,#D4EDDA 40%,#D4EDDA 75%,#FFF3CD 85%,#FDECEA 100%);position:relative}
+    .range-sweet{position:absolute;left:20%;right:25%;top:-2px;bottom:-2px;border:2px solid var(--gold);border-radius:4px}
+    .range-note{font-size:.8rem;color:#7A5C00}
+
+    /* RISK PANEL */
+    .risk-panel{background:var(--white);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:0 var(--radius-md) var(--radius-md) var(--radius-md);padding:36px}
+    .risk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .risk-card{border:1.5px solid #FECACA;border-radius:var(--radius-md);padding:22px;background:var(--red-lt)}
+    .risk-category{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .risk-title{font-size:1rem;font-weight:800;margin-bottom:10px}
+    .risk-list{list-style:none}
+    .risk-list li{font-size:.84rem;color:#7F1D1D;line-height:1.55;padding:4px 0;display:flex;gap:8px}
+    .risk-list li::before{content:'✗';color:var(--accent);flex-shrink:0}
+    .risk-verdict{margin-top:14px;padding:10px 14px;background:rgba(200,16,46,.08);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:.8rem;font-weight:700;color:#9B1C1C}
+
+    /* LOGISTICS */
+    .lra-layout{display:grid;grid-template-columns:320px 1fr;gap:32px;align-items:start}
+    .lra-control-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;position:sticky;top:90px}
+    .lra-control-title{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+    .form-group{margin-bottom:18px}
+    .form-label{display:block;font-size:.8rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+    .form-select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.88rem;background:var(--surface);color:var(--ink);transition:border-color .2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px}
+    .form-select:focus{outline:none;border-color:var(--accent2)}
+    .assess-btn{width:100%;padding:13px;font-size:.9rem;font-weight:700;background:var(--accent2);color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+    .assess-btn:hover{background:#0F2840}
+
+    .option-comparison{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
+    .option-card{border-radius:var(--radius-md);padding:26px;border:2px solid var(--border);transition:all .3s;opacity:.55}
+    .option-card.selected{opacity:1;box-shadow:var(--shadow-md)}
+    .option-card.option-a{border-color:#93C5FD}.option-card.option-b{border-color:var(--gold)}
+    .option-card.option-a.selected{background:#EFF6FF;border-color:#3B82F6}
+    .option-card.option-b.selected{background:#FFFBEB;border-color:var(--gold)}
+    .option-badge{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:block}
+    .option-a .option-badge{color:#1D4ED8}.option-b .option-badge{color:#7A5C00}
+    .option-title{font-size:1rem;font-weight:800;margin-bottom:14px}
+    .option-cost-display{background:rgba(0,0,0,.04);border-radius:8px;padding:12px 14px;margin-bottom:16px}
+    .cost-line{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+    .cost-line:last-child{border-bottom:none;font-weight:700;font-size:.88rem}
+    .cost-label{color:var(--muted)}.cost-value{font-weight:700}
+    .pros-cons-header{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+    .pros-cons-header.pros{color:var(--green)}.pros-cons-header.cons{color:var(--accent)}
+    .pros-cons-group{margin-bottom:12px}
+    .pros-cons li{font-size:.82rem;line-height:1.55;list-style:none;display:flex;gap:6px;padding:2px 0}
+    .pros-cons li.pro::before{content:'↑';color:var(--green);font-weight:800}
+    .pros-cons li.con::before{content:'↓';color:var(--accent);font-weight:800}
+
+    .verdict-banner{border-radius:var(--radius-md);padding:22px 26px;margin-top:4px;display:none}
+    .verdict-banner.active{display:flex;gap:16px;align-items:flex-start}
+    .verdict-banner.recommend-a{background:#EFF6FF;border:2px solid #93C5FD}
+    .verdict-banner.recommend-b{background:#FFFBEB;border:2px solid var(--gold)}
+    .verdict-icon{font-size:1.8rem;flex-shrink:0}
+    .verdict-text h4{font-size:.95rem;margin-bottom:4px}
+    .verdict-text p{font-size:.85rem;color:var(--muted)}
+
+    .route-viz{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;margin-top:20px}
+    .route-viz-title{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+    .route-map{display:flex;align-items:center;flex-wrap:nowrap}
+    .route-node{text-align:center;flex-shrink:0}
+    .route-node-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto 6px}
+    .rni-port{background:#EFF6FF}.rni-dest{background:var(--green-lt)}
+    .route-node-name{font-size:.72rem;font-weight:700;white-space:nowrap}
+    .route-connector{flex:1;position:relative;margin:0 6px;display:flex;flex-direction:column;align-items:center;padding-bottom:24px}
+    .rc-line{width:100%;height:2px;background:var(--border)}
+    .rc-line.high-risk{background:linear-gradient(90deg,#FCA5A5,var(--accent),#FCA5A5)}
+    .rc-line.secure{background:linear-gradient(90deg,#86EFAC,var(--green),#86EFAC)}
+    .rc-risk-label{position:absolute;top:8px;font-size:.65rem;font-weight:700;white-space:nowrap}
+    .rc-risk-label.danger{color:var(--accent)}.rc-risk-label.safe{color:var(--green)}
+
+    .theft-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .theft-stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center}
+    .theft-stat-num{font-size:1.4rem;font-weight:900;color:var(--accent);line-height:1}
+    .theft-stat-label{font-size:.72rem;color:var(--muted);margin-top:4px;font-weight:600;letter-spacing:.03em}
+
+    .customs-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.82rem}
+    .customs-table th{text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 10px;border-bottom:1.5px solid var(--border)}
+    .customs-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+    .customs-table tr:last-child td{border-bottom:none;font-weight:700}
+    .customs-table .rate{font-weight:700;color:var(--accent2)}
+
+    /* LANDED COST */
+    .pipeline-layout{display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start}
+    .pipeline-step{display:flex;gap:20px}
+    .step-connector{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+    .step-num{width:36px;height:36px;border-radius:50%;background:var(--accent2);color:#fff;font-size:.85rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+    .step-line{width:2px;flex:1;background:var(--border);margin:4px 0;min-height:40px}
+    .step-body{flex:1;padding-bottom:36px}
+    .step-phase{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .step-title{font-size:1rem;font-weight:800;margin-bottom:6px}
+    .step-desc{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:10px}
+    .step-detail{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+    .step-detail-row{display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0;border-bottom:1px solid var(--border)}
+    .step-detail-row:last-child{border-bottom:none}
+    .detail-key{color:var(--muted)}.detail-val{font-weight:700;color:var(--ink)}
+    .detail-val.highlight{color:var(--accent2)}
+
+    .cost-calc-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:28px;position:sticky;top:90px;box-shadow:var(--shadow-md)}
+    .calc-title{font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+    .calc-slider-group{margin-bottom:18px}
+    .slider-label{display:flex;justify-content:space-between;font-size:.82rem;font-weight:600;margin-bottom:6px}
+    .slider-val{font-weight:800;color:var(--accent2)}
+    input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--border);outline:none}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent2);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+    .calc-breakdown{background:var(--surface);border-radius:8px;padding:14px;margin-top:16px}
+    .calc-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;padding:5px 0;border-bottom:1px solid var(--border)}
+    .calc-row:last-child{border-bottom:none;font-size:.95rem;font-weight:800}
+    .calc-row-label{color:var(--muted)}.calc-row-val{font-weight:700}
+    .calc-row-val.total{font-size:1.1rem;color:var(--accent2)}
+    .calc-margin-bar{margin-top:14px;background:var(--surface);border-radius:8px;padding:14px}
+    .cmb-label{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;margin-bottom:8px}
+    .cmb-track{height:10px;border-radius:5px;background:var(--border);overflow:hidden}
+    .cmb-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--green),#22C55E);transition:width .4s ease}
+
+    /* CTA & FOOTER */
+    .cta-section{background:linear-gradient(135deg,var(--ink) 0%,#0F2840 100%);padding:80px 0;text-align:center;color:var(--white)}
+    .cta-section h2{margin-bottom:14px}
+    .cta-section p{color:#93B5D4;max-width:540px;margin:0 auto 32px}
+    .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .footer{background:#070C12;color:#4B5563;font-size:.82rem;padding:40px 0 24px;border-top:1px solid #1E2633}
+    .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:28px;margin-bottom:28px}
+    .footer-tagline{margin-top:6px;color:#4B5563;font-size:.8rem;max-width:220px}
+    .footer-links-label{font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#64748B;margin-bottom:10px;display:block}
+    .footer-links{list-style:none}.footer-links li{margin-bottom:6px}
+    .footer-links a{color:#6B7280;transition:color .2s}.footer-links a:hover{color:var(--white)}
+    .footer-bottom{border-top:1px solid #1E2633;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .legal-note{color:#374151;font-size:.75rem}
+    .mt-24{margin-top:24px}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr}.hero-card{display:none}
+      .machine-grid,.risk-grid,.option-comparison,.theft-stat-row{grid-template-columns:1fr}
+      .lra-layout,.pipeline-layout{grid-template-columns:1fr}
+      .lra-control-panel,.cost-calc-card{position:static}
+      .buy-intro{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){.section{padding:60px 0}.hero{padding:60px 0}.nav-links{display:none}.matrix-tabs{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-flag">
+      <span>🇯🇵 Yokohama, Japón → 🇲🇽 Manzanillo — Destino Nacional</span>
+    </div>
+    <span style="color:#2E3A4E;">|</span>
+    <span>Transacciones B2B · Flota 3.5T–5.5T · Clase 2016–2021</span>
+    <span style="color:#2E3A4E;">|</span>
+    <span>contacto@japoncompacto.com</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="inner">
+    <div class="logo">
+      <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7ab0cc"/><stop offset="100%" stop-color="#4a7fa5"/></linearGradient><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c8d8e8"/><stop offset="50%" stop-color="#a0b8cc"/><stop offset="100%" stop-color="#7090a8"/></linearGradient></defs><path d="M100 20 A80 80 0 1 1 99.9 20" stroke="url(#lg1)" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M60 40 A60 60 0 0 1 155 120" stroke="url(#lg1)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.75"/><path d="M70 60 A45 45 0 0 1 140 130" stroke="url(#lg1)" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.55"/><path d="M95 85 L125 60 L145 68 L130 95 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M130 95 L150 110 L140 125 L120 108 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M140 120 L158 112 L164 128 L148 140 L136 132 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M148 140 Q152 148 158 143 L164 128" stroke="#8ab0c8" stroke-width="2" fill="none"/><line x1="128" y1="78" x2="136" y2="100" stroke="#c8dce8" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div class="logo-text">Japón<span>Compacto</span></div>
+    </div>
+    <ul class="nav-links">
+      <li style="position:relative">
+        <button onclick="toggleNavDrop()" style="font-size:.88rem;font-weight:600;color:#8892A4;padding:6px 14px;border-radius:6px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;" onmouseover="this.style.color='#fff';this.style.background='#1E2633'" onmouseout="this.style.color='#8892A4';this.style.background='transparent'">
+          Seleccionar Vista <span id="dropArrow">▾</span>
+        </button>
+        <div id="navDrop" style="display:none;position:absolute;top:100%;left:0;background:#111827;border:1px solid #1E2633;border-radius:8px;min-width:200px;overflow:hidden;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.3);">
+          <a href="index.html" style="display:block;padding:10px 16px;font-size:.85rem;font-weight:600;color:#fff;background:#1E2633;">📄 Página Principal</a>
+          <a href="dashboard.html" style="display:block;padding:10px 16px;font-size:.85rem;font-weight:600;color:#8892A4;" onmouseover="this.style.color='#fff';this.style.background='#1E2633'" onmouseout="this.style.color='#8892A4';this.style.background='transparent'">📊 Dashboard de Maquinaria</a>
+        </div>
+      </li>
+      <li><a href="dashboard.html" style="display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:100px;">📊 Dashboard</a></li><li><a href="index-en.html" class="lang-pill">🇺🇸 English</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="route-pill">🚢 Ruta Yokohama → Manzanillo</span>
+        <h1>La plataforma B2B para importar maquinaria compacta <em>directamente de Japón</em></h1>
+        <p class="hero-sub">Acceso mayorista a excavadoras compactas 3.5T–5.5T clase 2016–2021, con márgenes brutos del 30%–42%. Sin intermediarios, con trazabilidad total desde el puerto de Yokohama hasta su destino final en México.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="document.getElementById('matrix').scrollIntoView({behavior:'smooth'})">Ver Inventario Calificado →</button>
+          <button class="btn btn-outline" onclick="document.getElementById('landed-cost').scrollIntoView({behavior:'smooth'})">Calculadora de Costo Aterrizado</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num">30<span>–42%</span></div><div class="stat-label">Margen Bruto Proyectado</div></div>
+          <div><div class="stat-num"><span>~</span>28</div><div class="stat-label">Días FOB a Manzanillo</div></div>
+          <div><div class="stat-num">4</div><div class="stat-label">Marcas Tier-1</div></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-title">⬢ Unidades Disponibles · Inventario Live</div>
+        <div class="unit-card">
+          <div class="unit-card-header"><div><div class="unit-name">Komatsu PC45MR-5</div><div class="unit-year">2018 · Yokohama Auction</div></div><div><div class="unit-margin-val">38%</div><div class="unit-margin-label">Margen Est.</div></div></div>
+          <div class="unit-meta"><span class="meta-pill">1,840 hrs</span><span class="meta-pill">4.5T</span><span class="meta-pill">Brazo Estándar</span><span class="meta-pill" style="background:#1A3A24;color:#4ADE80;">Grado A</span></div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-card-header"><div><div class="unit-name">Kubota KX155-5</div><div class="unit-year">2019 · Osaka Yard</div></div><div><div class="unit-margin-val">41%</div><div class="unit-margin-label">Margen Est.</div></div></div>
+          <div class="unit-meta"><span class="meta-pill">2,120 hrs</span><span class="meta-pill">5.5T</span><span class="meta-pill">Zero Tail</span><span class="meta-pill" style="background:#1A3A24;color:#4ADE80;">Grado A</span></div>
+        </div>
+        <div class="unit-card">
+          <div class="unit-card-header"><div><div class="unit-name">Cat 305E2 CR</div><div class="unit-year">2017 · Nagoya Lot</div></div><div><div class="unit-margin-val">34%</div><div class="unit-margin-label">Margen Est.</div></div></div>
+          <div class="unit-meta"><span class="meta-pill">2,450 hrs</span><span class="meta-pill">5.0T</span><span class="meta-pill">Blade Incl.</span><span class="meta-pill" style="background:#1A2E14;color:#86EFAC;">Grado B+</span></div>
+        </div>
+        <div class="route-display"><div class="route-steps"><span class="rs">🏭 YOK</span><div style="position:relative;flex:1;height:1px;background:linear-gradient(90deg,#2E3A4E,#C9A84C);margin:0 8px;"><span class="rs-days">~28 días · 40HC FCL</span></div><span class="rs">⚓ MZL</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="trust-item"><span class="trust-icon">🔍</span><div class="trust-text"><strong>Inspección en Origen</strong><span>Reporte fotográfico de 120 puntos</span></div></div>
+    <div class="trust-item"><span class="trust-icon">📋</span><div class="trust-text"><strong>Despacho Aduanal Integrado</strong><span>IVA · IGI · DTA · Pedimento</span></div></div>
+    <div class="trust-item"><span class="trust-icon">🛡️</span><div class="trust-text"><strong>Seguro All-Risk</strong><span>Cobertura puerta a puerta</span></div></div>
+    <div class="trust-item"><span class="trust-icon">📡</span><div class="trust-text"><strong>Tracking en Tiempo Real</strong><span>Portal exclusivo por lote</span></div></div>
+    <div class="trust-item"><span class="trust-icon">🤝</span><div class="trust-text"><strong>Solo Mayoristas</strong><span>Mínimo 2 unidades</span></div></div>
+  </div>
+</div>
+
+<!-- MODULE 1: BUY vs AVOID -->
+<section class="section section--alt" id="matrix">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Módulo 1 · Inteligencia de Adquisición</span>
+      <h2>Matriz de Compra:<br>Qué Adquirir y Qué Evitar</h2>
+      <p class="lead">Análisis fundamentado en liquidez de mercado, disponibilidad de refacciones en México y perfil de riesgo operativo.</p>
+    </div>
+    <div class="matrix-tabs">
+      <button class="matrix-tab active--buy" id="tab-buy" onclick="switchTab('buy')">✅ Rango Dorado — Recomendado</button>
+      <button class="matrix-tab" id="tab-risk" onclick="switchTab('risk')">⛔ Alto Riesgo — No Comprar</button>
+    </div>
+    <!-- BUY PANEL -->
+    <div class="matrix-panel active buy-panel" id="panel-buy">
+      <div class="buy-intro">
+        <div><h3 style="margin-bottom:10px;">El "Rango Dorado": 2016–2020 · 1,000–2,500 Horas</h3><p>Las unidades dentro del Rango Dorado representan el punto óptimo entre precio de adquisición en subasta japonesa y precio de venta en el mercado mexicano. Son unidades con suficiente vida útil restante para que el comprador final obtenga 5–8 años adicionales de operación, pero con suficiente depreciación para generar márgenes brutos de <strong>30%–42%</strong>.</p></div>
+        <div class="margin-badge"><div class="margin-badge-range">30–42%</div><div class="margin-badge-label">Margen Bruto<br>Proyectado</div></div>
+      </div>
+      <div class="golden-range"><h4>⬢ Ventana de Horas Óptimas</h4><div class="range-bar"><span class="range-label">0 hrs</span><div class="range-track"><div class="range-sweet"></div></div><span class="range-label">6,000 hrs</span></div><p class="range-note"><strong>Zona dorada:</strong> 1,000–2,500 horas · <span style="color:var(--accent);">Zona roja (&lt;1,000 o &gt;4,500 hrs):</span> Precio excesivo o riesgo elevado</p></div>
+      <div class="machine-grid mt-24">
+        <div class="machine-card"><div class="machine-card-header"><div><div class="machine-brand">Komatsu · Tier-1</div><div class="machine-model">PC45MR-5 / PC35MR-5</div></div><div class="machine-margin">+35–42%</div></div><div class="machine-specs"><span class="spec-chip">3.5–4.5T</span><span class="spec-chip">2016–2020</span><span class="spec-chip">1,200–2,400 hrs</span><span class="spec-chip">Zero Tail Swing</span></div><p class="machine-why"><strong>¿Por qué comprar?</strong> Komatsu México tiene red de distribución en CDMX, Monterrey y Guadalajara. Refacciones SAA4D95LE disponibles en 24–48 hrs. Alta demanda en construcción urbana y minería. El PC45MR-5 es la unidad más solicitada en plataformas de reventa nacionales.</p><div class="machine-signals"><span class="signal">Alta liquidez en reventa</span><span class="signal">Refacciones locales</span><span class="signal">Financiable</span></div></div>
+        <div class="machine-card"><div class="machine-card-header"><div><div class="machine-brand">Caterpillar · Tier-1</div><div class="machine-model">305E2 CR / 304E2</div></div><div class="machine-margin">+30–38%</div></div><div class="machine-specs"><span class="spec-chip">4.0–5.0T</span><span class="spec-chip">2016–2019</span><span class="spec-chip">1,000–2,500 hrs</span><span class="spec-chip">Motor C2.4T</span></div><p class="machine-why"><strong>¿Por qué comprar?</strong> El respaldo de marca Caterpillar elimina fricción en la reventa. Finning y Tracsa cuentan con stock en México. El ciclo de venta es 40% más rápido que modelos equivalentes. Opción premium para sector gobierno.</p><div class="machine-signals"><span class="signal">Ciclo de venta rápido</span><span class="signal">Soporte Finning/Tracsa</span><span class="signal">Sector gobierno</span></div></div>
+        <div class="machine-card"><div class="machine-card-header"><div><div class="machine-brand">Kubota · Tier-1</div><div class="machine-model">KX155-5 / KX135-3</div></div><div class="machine-margin">+38–42%</div></div><div class="machine-specs"><span class="spec-chip">4.5–5.5T</span><span class="spec-chip">2017–2021</span><span class="spec-chip">1,500–2,500 hrs</span><span class="spec-chip">ROPS/FOPS</span></div><p class="machine-why"><strong>¿Por qué comprar?</strong> Kubota tiene el mayor margen de la clase compacta en México. Alta presencia en sector agroindustrial. La serie KX es preferida en Jalisco, Sonora y Veracruz. Escasez relativa en mercado local incrementa el diferencial.</p><div class="machine-signals"><span class="signal">Mayor margen de la clase</span><span class="signal">Nicho agroindustrial</span><span class="signal">Escasez local</span></div></div>
+        <div class="machine-card"><div class="machine-card-header"><div><div class="machine-brand">Hitachi · Tier-1</div><div class="machine-model">ZX35U-5B / ZX55U-5B</div></div><div class="machine-margin">+32–39%</div></div><div class="machine-specs"><span class="spec-chip">3.5–5.5T</span><span class="spec-chip">2016–2020</span><span class="spec-chip">1,000–2,300 hrs</span><span class="spec-chip">Ultra Compact</span></div><p class="machine-why"><strong>¿Por qué comprar?</strong> Compatible con repuestos John Deere (alianza global). Excelente para espacios confinados. Fuerte demanda en sector hotelero (Riviera Maya, Los Cabos). Representante Hitachi en Monterrey.</p><div class="machine-signals"><span class="signal">Compatibilidad John Deere</span><span class="signal">Sector turístico</span><span class="signal">Espacios confinados</span></div></div>
+      </div>
+    </div>
+    <!-- RISK PANEL -->
+    <div class="matrix-panel risk-panel" id="panel-risk">
+      <div class="buy-intro" style="margin-bottom:24px"><div><h3 style="margin-bottom:10px;color:var(--accent);">Categorías de Alto Riesgo: Capital en Peligro</h3><p>La adquisición fuera del Rango Dorado puede resultar en capital inmovilizado. El costo de un error puede superar USD 8,000–15,000 en pérdidas directas por unidad.</p></div><div class="margin-badge" style="background:#FDECEA;border-color:#FECACA;"><div class="margin-badge-range" style="color:var(--accent);">⚠</div><div class="margin-badge-label" style="color:#9B1C1C;">Capital<br>en Riesgo</div></div></div>
+      <div class="risk-grid">
+        <div class="risk-card"><div class="risk-category">Riesgo Tipo I · Marcas Off-Brand</div><div class="risk-title">Doosan, Volvo CE, XCMG, Liugong</div><ul class="risk-list"><li>Red de refacciones inexistente o fragmentada en México</li><li>Tiempos de espera de 45–90 días para piezas críticas</li><li>Financiamiento bancario prácticamente imposible</li><li>Ciclo de reventa 3–5× más lento que Tier-1</li><li>Depreciación acelerada erosiona el diferencial</li></ul><div class="risk-verdict">Veredicto: NO COMPRAR. El diferencial no compensa la fricción de venta.</div></div>
+        <div class="risk-card"><div class="risk-category">Riesgo Tipo II · Alto Horómetro</div><div class="risk-title">Unidades con +5,000 Horas</div><ul class="risk-list"><li>Precio de subasta no refleja costo real de mantenimiento</li><li>Riesgo de falla mayor en primeros 6 meses</li><li>Comprador exigirá garantía — exposición a reclamaciones</li><li>Imposible revender sin USD 4,000–12,000 en reacondicionamiento</li><li>Márgenes colapsan al 5%–15%</li></ul><div class="risk-verdict">Veredicto: SOLO con taller propio y presupuesto de reacondicionamiento integrado.</div></div>
+        <div class="risk-card"><div class="risk-category">Riesgo Tipo III · Modelos Obsoletos</div><div class="risk-title">Series anteriores a 2012 / Tier III</div><ul class="risk-list"><li>Incompatibilidad con normas ambientales metropolitanas</li><li>Partes descontinuadas sin catálogo vigente</li><li>Valor de reventa ya alcanzó máximo</li><li>Percepción de "obsoleto" por comprador final</li></ul><div class="risk-verdict">Veredicto: NO COMPRAR para reventa mayorista.</div></div>
+        <div class="risk-card"><div class="risk-category">Riesgo Tipo IV · Daño Estructural</div><div class="risk-title">Unidades sin inspección / Lotes "Como Están"</div><ul class="risk-list"><li>Lotes "Como Están" tienen defectos no visibles en fotos</li><li>Fisuras en pluma, desgaste severo en pines y bujes</li><li>Daños por accidente que comprometen integridad</li><li>Reparación puede igualar precio de compra</li></ul><div class="risk-verdict">Veredicto: NUNCA sin inspección presencial. Japón Compacto incluye inspección en todos los lotes.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 2: LOGISTICS -->
+<section class="section" id="logistics">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Módulo 2 · Evaluación de Riesgo Logístico</span>
+      <h2>Seguridad de Transporte Terrestre:<br>Manzanillo → Destino Final</h2>
+      <p class="lead">Una vez que el contenedor 40HC atraca en Manzanillo, el riesgo logístico más significativo comienza. Configure su perfil de carga.</p>
+    </div>
+    <div class="theft-stat-row" style="margin-bottom:28px">
+      <div class="theft-stat"><div class="theft-stat-num">847</div><div class="theft-stat-label">Robos de carga Colima-Jalisco-Michoacán (2024, ANTP)</div></div>
+      <div class="theft-stat"><div class="theft-stat-num">USD 2.1M</div><div class="theft-stat-label">Pérdida promedio por robo de maquinaria no asegurada</div></div>
+      <div class="theft-stat"><div class="theft-stat-num">68%</div><div class="theft-stat-label">De robos ocurren en primeras 200km desde Manzanillo</div></div>
+    </div>
+    <div class="lra-layout">
+      <div class="lra-control-panel">
+        <div class="lra-control-title">⚙ Configurar Perfil de Carga</div>
+        <div class="form-group"><label class="form-label">Puerto de Arribo</label><select class="form-select" id="sel-port" onchange="updateAssessment()"><option value="manzanillo">Manzanillo, Colima</option><option value="lazaro">Lázaro Cárdenas, Michoacán</option><option value="veracruz">Veracruz, Veracruz</option></select></div>
+        <div class="form-group"><label class="form-label">Destino Final</label><select class="form-select" id="sel-dest" onchange="updateAssessment()"><option value="cdmx">CDMX / Estado de México</option><option value="gdl">Guadalajara, Jalisco</option><option value="mty">Monterrey, Nuevo León</option><option value="bajio">Bajío (Querétaro / León)</option><option value="norte">Norte (Chihuahua / Sonora)</option></select></div>
+        <div class="form-group"><label class="form-label">Unidades por Contenedor</label><select class="form-select" id="sel-units" onchange="updateAssessment()"><option value="2">2 unidades</option><option value="3">3 unidades</option></select></div>
+        <div class="form-group"><label class="form-label">Valor Declarado (USD)</label><select class="form-select" id="sel-value" onchange="updateAssessment()"><option value="80000">USD 60,000–80,000</option><option value="120000">USD 100,000–120,000</option><option value="180000">USD 150,000–180,000</option><option value="250000">USD 220,000–250,000</option></select></div>
+        <div class="form-group"><label class="form-label">Opción de Seguridad</label><select class="form-select" id="sel-option" onchange="updateAssessment()"><option value="both">Ver Comparativa</option><option value="a">Opción A (Estándar)</option><option value="b">Opción B (Custodia)</option></select></div>
+        <button class="assess-btn" onclick="updateAssessment()">Actualizar Evaluación →</button>
+        <div class="route-viz"><div class="route-viz-title">Ruta de Riesgo Activa</div><div class="route-map" id="route-map"></div></div>
+      </div>
+      <div>
+        <div class="option-comparison" id="option-comparison">
+          <div class="option-card option-a" id="card-a"><span class="option-badge">Opción A</span><div class="option-title">Flete Estándar con GPS</div><div class="option-cost-display" id="cost-a"></div><div class="pros-cons"><div class="pros-cons-group"><div class="pros-cons-header pros">Ventajas</div><ul><li class="pro">Costo 60%–70% menor vs. custodia armada</li><li class="pro">Mayor disponibilidad de transportistas</li><li class="pro">Ideal para rutas de bajo riesgo</li><li class="pro">Sin coordinación adicional</li></ul></div><div class="pros-cons-group"><div class="pros-cons-header cons">Riesgos</div><ul><li class="con">GPS solo permite localización, no prevención</li><li class="con">Seguro condicionado en zona de alto riesgo</li><li class="con">Tiempo de respuesta: 45–90 min</li><li class="con">Franquicia USD 8,000–25,000 por unidad</li><li class="con">No apto para cargas &gt;USD 120,000 en corredor Manzanillo-CDMX</li></ul></div></div></div>
+          <div class="option-card option-b" id="card-b"><span class="option-badge">Opción B</span><div class="option-title">Custodia Armada / Escolta Blindada</div><div class="option-cost-display" id="cost-b"></div><div class="pros-cons"><div class="pros-cons-group"><div class="pros-cons-header pros">Ventajas</div><ul><li class="pro">92% de reducción de incidentes en corredores críticos</li><li class="pro">Seguro sin franquicia con custodia certificada</li><li class="pro">Protocolo de paradas planificadas</li><li class="pro">Reporte de cadena de custodia para auditoría</li><li class="pro">Obligatorio para cargas &gt;USD 120,000 en zona roja</li></ul></div><div class="pros-cons-group"><div class="pros-cons-header cons">Costos</div><ul><li class="con">Prima: USD 1,800–4,500 por viaje</li><li class="con">Coordinación 2–5 días de anticipación</li><li class="con">Incrementa tiempo de tránsito</li><li class="con">No justificado en corredores de bajo riesgo</li></ul></div></div></div>
+        </div>
+        <div class="verdict-banner" id="verdict-banner"></div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-top:20px"><h4 style="margin-bottom:16px;font-size:.95rem;">Impacto Financiero Comparativo</h4><table class="customs-table"><thead><tr><th>Concepto</th><th>Opción A — Estándar</th><th>Opción B — Custodia</th></tr></thead><tbody id="financial-body"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE 3: LANDED COST -->
+<section class="section section--alt" id="landed-cost">
+  <div class="container">
+    <div class="section-header">
+      <span class="eyebrow">Módulo 3 · Transparencia de Costo Aterrizado</span>
+      <h2>Pipeline Yokohama → Destino:<br>Anatomía del Costo Total</h2>
+      <p class="lead">Cada componente del costo aterrizado es visible, calculable y fijo antes de confirmar la compra.</p>
+    </div>
+    <div class="pipeline-layout">
+      <div class="pipeline-steps">
+        <div class="pipeline-step"><div class="step-connector"><div class="step-num">1</div><div class="step-line"></div></div><div class="step-body"><div class="step-phase">Fase 1 · Japón</div><h3 class="step-title">Adquisición en Subasta — FOB Yokohama</h3><p class="step-desc">La unidad se adquiere en subasta japonesa certificada. El precio incluye comisión (3%–5%), preparación para exportación y Export Certificate.</p><div class="step-detail"><div class="step-detail-row"><span class="detail-key">Precio Hammer</span><span class="detail-val">100% Base</span></div><div class="step-detail-row"><span class="detail-key">Comisión de Subasta</span><span class="detail-val">+3.5%–5.0%</span></div><div class="step-detail-row"><span class="detail-key">Preparación Export</span><span class="detail-val">+USD 280–450</span></div><div class="step-detail-row"><span class="detail-key">Export Certificate</span><span class="detail-val">+USD 180–220</span></div><div class="step-detail-row"><span class="detail-key highlight">Total FOB Yokohama</span><span class="detail-val highlight">Base de Cálculo</span></div></div></div></div>
+        <div class="pipeline-step"><div class="step-connector"><div class="step-num">2</div><div class="step-line"></div></div><div class="step-body"><div class="step-phase">Fase 2 · Tránsito Oceánico</div><h3 class="step-title">Flete Marítimo FCL — 40HC</h3><p class="step-desc">Transporte en contenedores 40HC, 2–3 unidades por contenedor. Ruta Yokohama → Manzanillo: 22–30 días vía Pacífico.</p><div class="step-detail"><div class="step-detail-row"><span class="detail-key">Flete Marítimo (40HC)</span><span class="detail-val">USD 2,800–4,200</span></div><div class="step-detail-row"><span class="detail-key">BAF / EBS</span><span class="detail-val">USD 180–350</span></div><div class="step-detail-row"><span class="detail-key">Seguro All-Risk</span><span class="detail-val">0.35%–0.55% CIF</span></div><div class="step-detail-row"><span class="detail-key">Tiempo de Tránsito</span><span class="detail-val">22–30 días</span></div><div class="step-detail-row"><span class="detail-key highlight">Incoterm</span><span class="detail-val highlight">CIF Manzanillo</span></div></div></div></div>
+        <div class="pipeline-step"><div class="step-connector"><div class="step-num">3</div><div class="step-line"></div></div><div class="step-body"><div class="step-phase">Fase 3 · Aduana Manzanillo</div><h3 class="step-title">Despacho Aduanal Mexicano</h3><p class="step-desc">Despacho bajo fracción 8429.52 (Excavadoras). Impuestos sobre Valor en Aduana (CIF).</p><div class="step-detail"><table class="customs-table"><thead><tr><th>Concepto</th><th>Base</th><th>Tasa</th><th>Impacto</th></tr></thead><tbody><tr><td><strong>IGI</strong></td><td>Valor en Aduana</td><td class="rate">5%</td><td>USD 2,500–6,000</td></tr><tr><td><strong>IVA</strong></td><td>VA + IGI + Fletes</td><td class="rate">16%</td><td>USD 8,500–18,000 ✱</td></tr><tr><td><strong>DTA</strong></td><td>Valor en Aduana</td><td class="rate">0.008%</td><td>USD 80–240</td></tr><tr><td><strong>Agente Aduanal</strong></td><td>Por despacho</td><td class="rate">Fijo</td><td>USD 350–550</td></tr><tr><td colspan="3"><strong>Total</strong></td><td><strong>USD 11,500–24,800</strong></td></tr></tbody></table><p style="font-size:.75rem;color:var(--muted);margin-top:8px;">✱ IVA 100% acreditable contra IVA de ventas para personas morales.</p></div></div></div>
+        <div class="pipeline-step"><div class="step-connector"><div class="step-num">4</div><div class="step-line"></div></div><div class="step-body"><div class="step-phase">Fase 4 · Logística Terrestre</div><h3 class="step-title">Maniobras en Puerto & Flete</h3><p class="step-desc">Descarga, inspección SEMAR, traslado a patio de maniobras y flete terrestre a destino.</p><div class="step-detail"><div class="step-detail-row"><span class="detail-key">Maniobras + THC</span><span class="detail-val">USD 280–450</span></div><div class="step-detail-row"><span class="detail-key">Flete Terrestre</span><span class="detail-val">USD 800–3,500</span></div><div class="step-detail-row"><span class="detail-key">Custodia Armada</span><span class="detail-val">+USD 1,800–4,500</span></div><div class="step-detail-row"><span class="detail-key">Desconsolidación</span><span class="detail-val">USD 180–320</span></div></div></div></div>
+        <div class="pipeline-step"><div class="step-connector"><div class="step-num">5</div></div><div class="step-body"><div class="step-phase">Fase 5 · Costo Total</div><h3 class="step-title">Precio de Costo por Unidad</h3><p class="step-desc">Suma de todos los conceptos dividida entre unidades por contenedor.</p><div class="step-detail" style="background:linear-gradient(135deg,#F0F4FF,#E8F4F8);border-color:var(--accent2);"><div class="step-detail-row"><span class="detail-key">Precio FOB</span><span class="detail-val" id="summ-fob">USD 28,000</span></div><div class="step-detail-row"><span class="detail-key">Flete + Seguro</span><span class="detail-val" id="summ-freight">USD 1,800</span></div><div class="step-detail-row"><span class="detail-key">Impuestos Netos</span><span class="detail-val" id="summ-tax">USD 4,200</span></div><div class="step-detail-row"><span class="detail-key">Logística Terrestre</span><span class="detail-val" id="summ-land">USD 900</span></div><div class="step-detail-row" style="padding-top:8px;border-top:1.5px solid var(--accent2);"><span class="detail-key" style="font-weight:800;color:var(--accent2);">Costo Aterrizado Total</span><span class="detail-val highlight" id="summ-total" style="font-size:1.05rem;">USD 34,900</span></div></div></div></div>
+      </div>
+      <!-- CALCULATOR -->
+      <div class="cost-calc-card">
+        <div class="calc-title">🧮 Simulador de Costo Aterrizado</div>
+        <div class="calc-slider-group"><div class="slider-label"><span>Precio FOB (USD)</span><span class="slider-val" id="disp-fob">$28,000</span></div><input type="range" min="15000" max="55000" step="500" value="28000" id="sl-fob" oninput="calcLanded()"></div>
+        <div class="calc-slider-group"><div class="slider-label"><span>Unidades por contenedor</span><span class="slider-val" id="disp-units">2</span></div><input type="range" min="2" max="3" step="1" value="2" id="sl-units" oninput="calcLanded()"></div>
+        <div class="calc-slider-group"><div class="slider-label"><span>Precio de venta (USD)</span><span class="slider-val" id="disp-sale">$48,000</span></div><input type="range" min="20000" max="90000" step="1000" value="48000" id="sl-sale" oninput="calcLanded()"></div>
+        <div class="form-group" style="margin-bottom:12px"><label class="form-label">Destino</label><select class="form-select" id="calc-dest" onchange="calcLanded()"><option value="800">Guadalajara (+USD 800)</option><option value="1400" selected>CDMX (+USD 1,400)</option><option value="2200">Monterrey (+USD 2,200)</option><option value="2800">Norte (+USD 2,800)</option></select></div>
+        <div class="form-group" style="margin-bottom:12px"><label class="form-label">Custodia</label><select class="form-select" id="calc-security" onchange="calcLanded()"><option value="0">Sin custodia (Opción A)</option><option value="3000">Con custodia (Opción B) +USD 3,000</option></select></div>
+        <div class="calc-breakdown">
+          <div class="calc-row"><span class="calc-row-label">Precio FOB</span><span class="calc-row-val" id="c-fob">$28,000</span></div>
+          <div class="calc-row"><span class="calc-row-label">Comisión (~4%)</span><span class="calc-row-val" id="c-auction">$1,120</span></div>
+          <div class="calc-row"><span class="calc-row-label">Flete marítimo + seguro</span><span class="calc-row-val" id="c-ocean">$1,800</span></div>
+          <div class="calc-row"><span class="calc-row-label">IGI (5%) + DTA</span><span class="calc-row-val" id="c-igi">$1,466</span></div>
+          <div class="calc-row"><span class="calc-row-label">Agente aduanal</span><span class="calc-row-val" id="c-agent">$450</span></div>
+          <div class="calc-row"><span class="calc-row-label">Flete terrestre</span><span class="calc-row-val" id="c-land">$1,400</span></div>
+          <div class="calc-row"><span class="calc-row-label">Custodia</span><span class="calc-row-val" id="c-sec">$0</span></div>
+          <div class="calc-row"><span class="calc-row-label">Maniobras</span><span class="calc-row-val" id="c-misc">$360</span></div>
+          <div class="calc-row"><span class="calc-row-label" style="font-weight:800;color:var(--accent2);">Costo Aterrizado Total</span><span class="calc-row-val total" id="c-total">$34,596</span></div>
+        </div>
+        <div class="calc-margin-bar"><div class="cmb-label"><span>Margen Bruto Estimado</span><span id="c-margin-pct" style="color:var(--green);font-size:1.1rem;">28.0%</span></div><div class="cmb-track"><div class="cmb-fill" id="c-margin-fill" style="width:28%;"></div></div><div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:4px;"><span>0%</span><span style="color:var(--green);">↑ Rango Dorado 30%–42%</span><span>60%</span></div></div>
+        <div id="margin-alert" style="margin-top:12px;font-size:.8rem;display:none;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <span class="eyebrow eyebrow--light">Próximo Paso</span>
+    <h2>¿Listo para su primera operación<br>desde Japón?</h2>
+    <p>Acceda a inventario calificado, cotización de costo aterrizado en 24 hrs y asegure su lote antes de la próxima ventana de subasta.</p>
+    <div class="cta-actions">
+    </div>
+    <div style="margin-top:36px;display:flex;gap:32px;justify-content:center;flex-wrap:wrap;">
+      <span style="font-size:.82rem;color:#64748B;">📧 contacto@japoncompacto.com</span>
+      <span style="font-size:.82rem;color:#64748B;">📱 +1 587 723 6646</span>
+      <span style="font-size:.82rem;color:#64748B;">🏢 Monterrey, Nuevo León · México</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="logo"><svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7ab0cc"/><stop offset="100%" stop-color="#4a7fa5"/></linearGradient><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c8d8e8"/><stop offset="50%" stop-color="#a0b8cc"/><stop offset="100%" stop-color="#7090a8"/></linearGradient></defs><path d="M100 20 A80 80 0 1 1 99.9 20" stroke="url(#lg1)" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M60 40 A60 60 0 0 1 155 120" stroke="url(#lg1)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.75"/><path d="M70 60 A45 45 0 0 1 140 130" stroke="url(#lg1)" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.55"/><path d="M95 85 L125 60 L145 68 L130 95 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M130 95 L150 110 L140 125 L120 108 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M140 120 L158 112 L164 128 L148 140 L136 132 Z" fill="url(#lg2)" stroke="#8ab0c8" stroke-width="1.5"/><path d="M148 140 Q152 148 158 143 L164 128" stroke="#8ab0c8" stroke-width="2" fill="none"/><line x1="128" y1="78" x2="136" y2="100" stroke="#c8dce8" stroke-width="2.5" stroke-linecap="round"/></svg><div class="logo-text">Japón<span style="color:var(--gold);">Compacto</span></div></div><p class="footer-tagline">Importación directa de maquinaria compacta. Solo B2B. Solo Tier-1.</p></div>
+      <div><span class="footer-links-label">Plataforma</span><ul class="footer-links"><li><a href="#matrix">Matriz de Compra</a></li><li><a href="#logistics">Evaluación Logística</a></li><li><a href="#landed-cost">Costo Aterrizado</a></li></ul></div>
+      <div><span class="footer-links-label">Operaciones</span><ul class="footer-links"><li><a href="#">Puerto de Yokohama</a></li><li><a href="#">Puerto de Manzanillo</a></li><li><a href="#">Agente Aduanal</a></li><li><a href="#">Seguridad de Transporte</a></li></ul></div>
+      <div><span class="footer-links-label">Legal</span><ul class="footer-links"><li><a href="#">Términos & Condiciones</a></li><li><a href="#">Aviso de Privacidad</a></li><li><a href="#">Política Comercial B2B</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span class="legal-note">© 2024–2025 Japón Compacto S. de R.L. de C.V. · Todos los derechos reservados</span>
+      <span class="legal-note">Los márgenes proyectados son estimaciones basadas en datos históricos. No constituyen garantía de rentabilidad.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function switchTab(t){
+  const tB=document.getElementById('tab-buy'),tR=document.getElementById('tab-risk'),pB=document.getElementById('panel-buy'),pR=document.getElementById('panel-risk');
+  if(t==='buy'){tB.classList.add('active--buy');tR.classList.remove('active--risk');pB.classList.add('active');pR.classList.remove('active');}
+  else{tR.classList.add('active--risk');tB.classList.remove('active--buy');pR.classList.add('active');pB.classList.remove('active');}
+}
+const ROUTE_DATA={manzanillo:{cdmx:{km:1040,risk:'high',baseCostA:1800,baseCostB:4200,riskLabel:'Zona Roja'},gdl:{km:370,risk:'medium',baseCostA:900,baseCostB:2400,riskLabel:'Zona Naranja'},mty:{km:1320,risk:'high',baseCostA:2200,baseCostB:4800,riskLabel:'Zona Roja'},bajio:{km:720,risk:'medium',baseCostA:1300,baseCostB:3000,riskLabel:'Zona Naranja'},norte:{km:1750,risk:'high',baseCostA:2800,baseCostB:5500,riskLabel:'Zona Roja'}},lazaro:{cdmx:{km:560,risk:'high',baseCostA:1400,baseCostB:3800,riskLabel:'Zona Roja'},gdl:{km:480,risk:'high',baseCostA:1200,baseCostB:3200,riskLabel:'Zona Roja'},mty:{km:1280,risk:'high',baseCostA:2100,baseCostB:4600,riskLabel:'Zona Roja'},bajio:{km:600,risk:'medium',baseCostA:1100,baseCostB:2800,riskLabel:'Zona Naranja'},norte:{km:1600,risk:'high',baseCostA:2600,baseCostB:5200,riskLabel:'Zona Roja'}},veracruz:{cdmx:{km:440,risk:'low',baseCostA:1100,baseCostB:2600,riskLabel:'Zona Verde'},gdl:{km:830,risk:'medium',baseCostA:1600,baseCostB:3400,riskLabel:'Zona Naranja'},mty:{km:970,risk:'medium',baseCostA:1800,baseCostB:3800,riskLabel:'Zona Naranja'},bajio:{km:580,risk:'low',baseCostA:1200,baseCostB:2800,riskLabel:'Zona Verde'},norte:{km:1400,risk:'high',baseCostA:2400,baseCostB:5000,riskLabel:'Zona Roja'}}};
+const PORT_LABELS={manzanillo:'Manzanillo',lazaro:'Lázaro Cárdenas',veracruz:'Veracruz'};
+const DEST_LABELS={cdmx:'CDMX',gdl:'Guadalajara',mty:'Monterrey',bajio:'Bajío',norte:'Norte'};
+function fmt(n){return '$'+n.toLocaleString('en-US');}
+function updateAssessment(){
+  const port=document.getElementById('sel-port').value,dest=document.getElementById('sel-dest').value,value=parseInt(document.getElementById('sel-value').value),optSel=document.getElementById('sel-option').value;
+  const route=ROUTE_DATA[port][dest],costA=route.baseCostA,costB=route.baseCostB;
+  const insA=route.risk==='high'?Math.round(value*0.012):Math.round(value*0.006);
+  const deductA=route.risk==='high'?Math.round(value*0.08):Math.round(value*0.04);
+  const totalA=costA+insA,totalB=costB,delta=totalB-totalA;
+  document.getElementById('cost-a').innerHTML=`<div class="cost-line"><span class="cost-label">Flete Terrestre</span><span class="cost-value">${fmt(costA)}</span></div><div class="cost-line"><span class="cost-label">Prima de Seguro</span><span class="cost-value">${fmt(insA)}</span></div><div class="cost-line"><span class="cost-label">Franquicia potencial</span><span class="cost-value" style="color:var(--accent)">${fmt(deductA)}</span></div><div class="cost-line"><span class="cost-label">Total</span><span class="cost-value">${fmt(totalA)}</span></div>`;
+  document.getElementById('cost-b').innerHTML=`<div class="cost-line"><span class="cost-label">Flete + Custodia</span><span class="cost-value">${fmt(costB)}</span></div><div class="cost-line"><span class="cost-label">Seguro (incl.)</span><span class="cost-value" style="color:var(--green)">$0 (sin franquicia)</span></div><div class="cost-line"><span class="cost-label">Franquicia</span><span class="cost-value" style="color:var(--green)">$0</span></div><div class="cost-line"><span class="cost-label">Total</span><span class="cost-value">${fmt(costB)}</span></div>`;
+  const cA=document.getElementById('card-a'),cB=document.getElementById('card-b');
+  cA.classList.remove('selected');cB.classList.remove('selected');
+  let rec=(route.risk==='high'||value>=120000)?'b':'a';
+  if(optSel==='a')cA.classList.add('selected');else if(optSel==='b')cB.classList.add('selected');else(rec==='b'?cB:cA).classList.add('selected');
+  const vb=document.getElementById('verdict-banner');vb.className='verdict-banner active';
+  if(rec==='b'){vb.classList.add('recommend-b');vb.innerHTML=`<div class="verdict-icon">🛡️</div><div class="verdict-text"><h4>Recomendación: Custodia Armada (Opción B)</h4><p>Ruta ${PORT_LABELS[port]} → ${DEST_LABELS[dest]}: <strong>${route.riskLabel}</strong> (${route.km} km). Con valor de ${fmt(value)}, la franquicia estándar (${fmt(deductA)}) justifica el diferencial de custodia (${fmt(delta)}).</p></div>`;}
+  else{vb.classList.add('recommend-a');vb.innerHTML=`<div class="verdict-icon">✅</div><div class="verdict-text"><h4>Recomendación: Flete Estándar (Opción A)</h4><p>Ruta ${PORT_LABELS[port]} → ${DEST_LABELS[dest]}: <strong>${route.riskLabel}</strong> (${route.km} km). El costo de custodia (${fmt(delta)}) no se justifica financieramente.</p></div>`;}
+  document.getElementById('financial-body').innerHTML=`<tr><td>Transporte Base</td><td>${fmt(costA)}</td><td>${fmt(Math.round(costB*0.6))}</td></tr><tr><td>Prima de Seguro</td><td>${fmt(insA)}</td><td>Incluida</td></tr><tr><td>Custodia</td><td>—</td><td>${fmt(Math.round(costB*0.4))}</td></tr><tr><td>Franquicia Máxima</td><td style="color:var(--accent)">${fmt(deductA)}</td><td style="color:var(--green)">$0</td></tr><tr><td>Cobertura Real</td><td>${fmt(value-deductA)}</td><td>${fmt(value)}</td></tr><tr><td><strong>Costo Total de Riesgo</strong></td><td><strong>${fmt(totalA)}</strong></td><td><strong>${fmt(totalB)}</strong></td></tr>`;
+  const rc=route.risk==='low'?'secure':'high-risk',rl=route.risk==='low'?'safe':'danger';
+  document.getElementById('route-map').innerHTML=`<div class="route-node"><div class="route-node-icon rni-port">⚓</div><div class="route-node-name">${PORT_LABELS[port]}</div></div><div class="route-connector"><div class="rc-line ${rc}"></div><span class="rc-risk-label ${rl}" style="top:8px;">${route.km} km · ${route.riskLabel}</span></div><div class="route-node"><div class="route-node-icon rni-dest">🏭</div><div class="route-node-name">${DEST_LABELS[dest]}</div></div>`;
+}
+function calcLanded(){
+  const fob=parseInt(document.getElementById('sl-fob').value),unitsN=parseInt(document.getElementById('sl-units').value),sale=parseInt(document.getElementById('sl-sale').value),landBase=parseInt(document.getElementById('calc-dest').value),security=parseInt(document.getElementById('calc-security').value);
+  const auction=Math.round(fob*0.04),ocean=Math.round(3500/unitsN),insurance=Math.round(fob*0.004),igi=Math.round(fob*0.05),dta=Math.round(fob*0.00008),agent=450,land=Math.round(landBase/unitsN),sec=Math.round(security/unitsN),misc=360;
+  const total=fob+auction+ocean+insurance+igi+dta+agent+land+sec+misc;
+  const margin=((sale-total)/sale*100),marginPct=Math.max(0,margin).toFixed(1);
+  document.getElementById('disp-fob').textContent='$'+fob.toLocaleString('en-US');
+  document.getElementById('disp-units').textContent=unitsN;
+  document.getElementById('disp-sale').textContent='$'+sale.toLocaleString('en-US');
+  document.getElementById('c-fob').textContent='$'+fob.toLocaleString('en-US');
+  document.getElementById('c-auction').textContent='$'+auction.toLocaleString('en-US');
+  document.getElementById('c-ocean').textContent='$'+(ocean+insurance).toLocaleString('en-US');
+  document.getElementById('c-igi').textContent='$'+(igi+dta).toLocaleString('en-US');
+  document.getElementById('c-agent').textContent='$'+agent.toLocaleString('en-US');
+  document.getElementById('c-land').textContent='$'+land.toLocaleString('en-US');
+  document.getElementById('c-sec').textContent='$'+sec.toLocaleString('en-US');
+  document.getElementById('c-misc').textContent='$'+misc.toLocaleString('en-US');
+  document.getElementById('c-total').textContent='$'+total.toLocaleString('en-US');
+  document.getElementById('c-margin-pct').textContent=marginPct+'%';
+  document.getElementById('c-margin-fill').style.width=Math.min(parseFloat(marginPct),60)/60*100+'%';
+  const mE=document.getElementById('c-margin-pct'),fE=document.getElementById('c-margin-fill'),aE=document.getElementById('margin-alert');
+  aE.style.display='block';aE.style.padding='8px 12px';aE.style.borderRadius='6px';aE.style.fontWeight='700';
+  if(margin>=30){mE.style.color='var(--green)';fE.style.background='linear-gradient(90deg,var(--green),#22C55E)';aE.style.background='var(--green-lt)';aE.style.color='var(--green)';aE.textContent='✓ Dentro del Rango Dorado (30%–42%). Operación viable.';}
+  else if(margin>=20){mE.style.color='#CA8A04';fE.style.background='linear-gradient(90deg,#FBBF24,#F59E0B)';aE.style.background='#FEF3C7';aE.style.color='#92400E';aE.textContent='⚠ Margen bajo rango óptimo. Revise precio de adquisición o venta.';}
+  else{mE.style.color='var(--accent)';fE.style.background='linear-gradient(90deg,var(--accent),#EF4444)';aE.style.background='var(--red-lt)';aE.style.color='var(--accent)';aE.textContent='✗ Margen insuficiente. Operación no viable como mayorista.';}
+  document.getElementById('summ-fob').textContent='$'+fob.toLocaleString('en-US');
+  document.getElementById('summ-freight').textContent='$'+(ocean+insurance).toLocaleString('en-US');
+  document.getElementById('summ-tax').textContent='$'+(igi+dta+agent).toLocaleString('en-US');
+  document.getElementById('summ-land').textContent='$'+(land+sec+misc).toLocaleString('en-US');
+  document.getElementById('summ-total').textContent='$'+total.toLocaleString('en-US');
+}
+updateAssessment();calcLanded();
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:0.08});
+document.querySelectorAll('.machine-card,.risk-card,.theft-stat,.pipeline-step').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(24px)';el.style.transition='opacity .5s ease,transform .5s ease';observer.observe(el);});
+function toggleNavDrop(){var d=document.getElementById('navDrop'),a=document.getElementById('dropArrow');d.style.display=d.style.display==='block'?'none':'block';a.textContent=d.style.display==='block'?'▴':'▾';}
+document.addEventListener('click',function(e){if(!e.target.closest('#navDrop') && !e.target.closest('button[onclick="toggleNavDrop()"]')){var d=document.getElementById('navDrop');if(d)d.style.display='none';document.getElementById('dropArrow').textContent='▾';}});
+</script>
+</body>
+</html>

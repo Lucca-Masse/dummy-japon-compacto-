@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Japón Compacto — Import Logistics Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 50:'#f0f4fa', 100:'#d9e4f5', 600:'#2a5298', 700:'#1e3d7a', 800:'#1a3260', 900:'#0f1e3d' },
+            steel: { 400:'#7a9aba', 500:'#5a82a5', 600:'#4a6d8c' },
+            gold: { 400:'#d4a843', 500:'#c9a030' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    input[type=range] { -webkit-appearance: none; height: 6px; border-radius: 3px; background: #d1d5db; outline: none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #2a5298; cursor: pointer; border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+    .fade-in { animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useMemo, useRef, useEffect } = React;
+
+// ── TRANSLATIONS ───────────────────────────────────────────────────────────────
+const LANG = {
+  en: {
+    select_view: 'Select View',
+    home_page: 'Home Page',
+    machinery_dashboard: 'Machinery Dashboard',
+    disclaimer_title: 'Financial Volatility Disclaimer',
+    disclaimer_body: 'All financial figures are estimates. Total acquisition costs are subject to high volatility based on secondhand machinery auction prices in Japan. Final costs cannot be fixed until the hammer price is secured. Ocean freight rates, customs duties, and inland logistics costs may vary. This tool is for planning purposes only.',
+    page_title: 'Inland Logistics & Cost Calculator',
+    page_sub: "Yokohama, Japan → Manzanillo, Mexico → Inland Destination · 40'HC Container · Mini Excavators",
+    container_count: 'Container Count',
+    container_sub: "40'HC · Yokohama → Manzanillo",
+    excavators_label: 'Excavators / Container',
+    excavators_sub: 'Mini excavators per 40\'HC unit',
+    total_excavators: 'Total Excavators',
+    units: 'units',
+    mock_auction: 'Mock auction value (est.)',
+    inland_dest: 'Inland Destination',
+    security_title: 'Inland Security Protocol',
+    opt_a_label: 'Option A: Armed Escort',
+    opt_a_sub: 'Custodia Armada · $2,200 / container',
+    opt_b_label: 'Option B: Full Cargo Insurance',
+    opt_b_sub: 'Seguro sobre valor total · 1.2% of CIF',
+    cost_breakdown: 'Cost Breakdown — Per Operation',
+    total_landed: 'Total Landed Cost',
+    excl_iva: 'Excl. IVA (creditable)',
+    landed_per_unit: 'Landed Cost per Excavator',
+    route_summary: 'Route Summary',
+    containers_label: 'Containers',
+    excavators_label2: 'Excavators',
+    inland_km: 'Inland km',
+    protocol: 'Protocol',
+    armed_escort: 'Armed Escort',
+    insurance: 'Insurance',
+    risk_low: 'Low Risk',
+    risk_medium: 'Medium Risk',
+    risk_high: 'High Risk',
+    risk_assessment: 'Risk Assessment',
+    elevated: 'Elevated Exposure',
+    recommended_strat: 'Recommended Strategy',
+    opt_a_warning_title: 'Option A: Armed Escort — Caution Advised',
+    opt_b_rec_title: 'Option B: Full Cargo Insurance — Recommended',
+    kpi_total_units: 'Total Units',
+    kpi_landed: 'Landed Cost / Unit',
+    kpi_capital: 'Total Capital at Risk',
+    kpi_security: 'Security Cost',
+    auction_label: 'Auction Price (mock)',
+    ocean_label: "Ocean Freight (40'HC FCL)",
+    igi_label: 'IGI Import Duty (5%)',
+    dta_label: 'DTA Processing Fee',
+    broker_label: 'Customs Broker',
+    port_label: 'Port Handling + THC',
+    inland_freight: 'Inland Freight →',
+    armed_label: 'Armed Escort (Custodia Armada)',
+    insurance_label: 'Cargo Insurance (All-Risk)',
+    footer_platform: 'Import Logistics Platform · B2B Only',
+    usd: 'USD',
+    on_cif: 'On CIF value',
+    pct_cif: '0.008% of CIF',
+    pct_cif_val: '1.2% of CIF value',
+  },
+  es: {
+    select_view: 'Seleccionar Vista',
+    home_page: 'Página Principal',
+    machinery_dashboard: 'Dashboard de Maquinaria',
+    disclaimer_title: 'Aviso de Volatilidad Financiera',
+    disclaimer_body: 'Todas las cifras financieras son estimaciones. Los costos totales de adquisición están sujetos a alta volatilidad basada en precios de subasta de maquinaria de segunda mano en Japón. Los costos finales no pueden fijarse hasta que se asegure el precio de martillo. Las tarifas de flete marítimo, aranceles aduanales y costos de logística interior pueden variar. Esta herramienta es solo para planificación.',
+    page_title: 'Calculadora de Logística Interior y Costos',
+    page_sub: "Yokohama, Japón → Manzanillo, México → Destino Interior · Contenedor 40'HC · Mini Excavadoras",
+    container_count: 'Número de Contenedores',
+    container_sub: "40'HC · Yokohama → Manzanillo",
+    excavators_label: 'Excavadoras / Contenedor',
+    excavators_sub: "Mini excavadoras por unidad 40'HC",
+    total_excavators: 'Total de Excavadoras',
+    units: 'unidades',
+    mock_auction: 'Valor de subasta estimado',
+    inland_dest: 'Destino Interior',
+    security_title: 'Protocolo de Seguridad Terrestre',
+    opt_a_label: 'Opción A: Custodia Armada',
+    opt_a_sub: 'Armed Escort · $2,200 / contenedor',
+    opt_b_label: 'Opción B: Seguro sobre Valor Total',
+    opt_b_sub: 'Full Cargo Insurance · 1.2% del CIF',
+    cost_breakdown: 'Desglose de Costos — Por Operación',
+    total_landed: 'Costo Total en Destino',
+    excl_iva: 'Sin IVA (acreditable)',
+    landed_per_unit: 'Costo en Destino por Excavadora',
+    route_summary: 'Resumen de Ruta',
+    containers_label: 'Contenedores',
+    excavators_label2: 'Excavadoras',
+    inland_km: 'Km Interior',
+    protocol: 'Protocolo',
+    armed_escort: 'Custodia Armada',
+    insurance: 'Seguro',
+    risk_low: 'Riesgo Bajo',
+    risk_medium: 'Riesgo Medio',
+    risk_high: 'Riesgo Alto',
+    risk_assessment: 'Evaluación de Riesgo',
+    elevated: 'Exposición Elevada',
+    recommended_strat: 'Estrategia Recomendada',
+    opt_a_warning_title: 'Opción A: Custodia Armada — Precaución',
+    opt_b_rec_title: 'Opción B: Seguro de Carga — Recomendado',
+    kpi_total_units: 'Total Unidades',
+    kpi_landed: 'Costo en Destino / Unidad',
+    kpi_capital: 'Capital Total en Riesgo',
+    kpi_security: 'Costo de Seguridad',
+    auction_label: 'Precio de Subasta (estimado)',
+    ocean_label: "Flete Marítimo (FCL 40'HC)",
+    igi_label: 'Arancel IGI (5%)',
+    dta_label: 'Cargo DTA',
+    broker_label: 'Agente Aduanal',
+    port_label: 'Manejo Portuario + THC',
+    inland_freight: 'Flete Interior →',
+    armed_label: 'Custodia Armada',
+    insurance_label: 'Seguro de Carga (Todo Riesgo)',
+    footer_platform: 'Plataforma de Logística · Solo B2B',
+    usd: 'USD',
+    on_cif: 'Sobre valor CIF',
+    pct_cif: '0.008% del CIF',
+    pct_cif_val: '1.2% del valor CIF',
+  }
+};
+
+// ── SVG LOGO ───────────────────────────────────────────────────────────────────
+function Logo({ size = 48 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#C9A84C"/>
+          <stop offset="100%" stopColor="#a07830"/>
+        </linearGradient>
+        <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#c8d8e8"/>
+          <stop offset="50%" stopColor="#a0b8cc"/>
+          <stop offset="100%" stopColor="#7090a8"/>
+        </linearGradient>
+      </defs>
+      <path d="M100 20 A80 80 0 1 1 99.9 20" stroke="url(#lg1)" strokeWidth="8" fill="none" strokeLinecap="round"/>
+      <path d="M60 40 A60 60 0 0 1 155 120" stroke="url(#lg1)" strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.75"/>
+      <path d="M70 60 A45 45 0 0 1 140 130" stroke="url(#lg1)" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.55"/>
+      <path d="M95 85 L125 60 L145 68 L130 95 Z" fill="url(#lg2)" stroke="#8ab0c8" strokeWidth="1.5"/>
+      <path d="M130 95 L150 110 L140 125 L120 108 Z" fill="url(#lg2)" stroke="#8ab0c8" strokeWidth="1.5"/>
+      <path d="M140 120 L158 112 L164 128 L148 140 L136 132 Z" fill="url(#lg2)" stroke="#8ab0c8" strokeWidth="1.5"/>
+      <path d="M148 140 Q152 148 158 143 L164 128" stroke="#8ab0c8" strokeWidth="2" fill="none"/>
+      <line x1="128" y1="78" x2="136" y2="100" stroke="#c8dce8" strokeWidth="2.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
+const DESTINATIONS = [
+  { id: 'queretaro', label: 'Querétaro',    km: 850,  risk: 'medium', freightBase: 1100 },
+  { id: 'puebla',    label: 'Puebla',       km: 960,  risk: 'medium', freightBase: 1250 },
+  { id: 'cdmx',      label: 'Mexico City',  km: 1040, risk: 'high',   freightBase: 1420 },
+  { id: 'qroo',      label: 'Quintana Roo', km: 1880, risk: 'high',   freightBase: 2600 },
+];
+
+const MOCK_AUCTION_PRICE            = 24000;
+const OCEAN_FREIGHT_PER_CONTAINER   = 3800;
+const CUSTOMS_RATE                  = 0.05;
+const IVA_RATE                      = 0.16;
+const DTA_RATE                      = 0.00008;
+const BROKER_FEE                    = 450;
+const PORT_HANDLING                 = 380;
+const ESCORT_BASE                   = 2200;
+const INSURANCE_RATE                = 0.012;
+
+// ── RISK CONFIG (inline — no external dependency) ─────────────────────────
+function getRiskStyle(risk) {
+  if (risk === 'low')    return { bg: 'bg-emerald-50', border: 'border-emerald-300', text: 'text-emerald-700', dot: 'bg-emerald-500' };
+  if (risk === 'medium') return { bg: 'bg-amber-50',   border: 'border-amber-300',   text: 'text-amber-700',   dot: 'bg-amber-500'   };
+  return                        { bg: 'bg-red-50',     border: 'border-red-300',     text: 'text-red-700',     dot: 'bg-red-500'     };
+}
+
+// ── UTILS ──────────────────────────────────────────────────────────────────
+const fmt  = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const fmtK = (n) => '$' + (n / 1000).toFixed(1) + 'K';
+
+// ── MAIN DASHBOARD ─────────────────────────────────────────────────────────
+function Dashboard() {
+  const [lang,        setLang]        = useState('en');
+  const [containers,  setContainers]  = useState(5);
+  const [excsPerCont, setExcsPerCont] = useState(3);
+  const [destId,      setDestId]      = useState('cdmx');
+  const [security,    setSecurity]    = useState('B');
+  const [dropOpen,    setDropOpen]    = useState(false);
+  const dropRef = useRef(null);
+
+  const t = LANG[lang];
+
+  useEffect(() => {
+    function handler(e) {
+      if (dropRef.current && !dropRef.current.contains(e.target)) setDropOpen(false);
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const dest          = DESTINATIONS.find(d => d.id === destId);
+  const totalExcavators = containers * excsPerCont;
+  const riskStyle     = getRiskStyle(dest.risk);
+
+  const riskLabel = dest.risk === 'low' ? t.risk_low : dest.risk === 'medium' ? t.risk_medium : t.risk_high;
+
+  const costs = useMemo(() => {
+    const auctionTotal  = totalExcavators * MOCK_AUCTION_PRICE;
+    const oceanTotal    = containers * OCEAN_FREIGHT_PER_CONTAINER;
+    const cifValue      = auctionTotal + oceanTotal;
+    const igi           = cifValue * CUSTOMS_RATE;
+    const iva           = (cifValue + igi) * IVA_RATE;
+    const dta           = cifValue * DTA_RATE;
+    const brokerTotal   = BROKER_FEE * containers;
+    const portTotal     = PORT_HANDLING * containers;
+    const freightTotal  = dest.freightBase * containers;
+    const securityCost  = security === 'A' ? ESCORT_BASE * containers : cifValue * INSURANCE_RATE;
+    const totalBeforeIva = auctionTotal + oceanTotal + igi + dta + brokerTotal + portTotal + freightTotal + securityCost;
+    const landedPerUnit  = totalBeforeIva / totalExcavators;
+    return { auctionTotal, oceanTotal, cifValue, igi, iva, dta, brokerTotal, portTotal, freightTotal, securityCost, landedPerUnit, totalBeforeIva };
+  }, [containers, excsPerCont, totalExcavators, dest, security]);
+
+  return (
+    <div className="min-h-screen" style={{background:'#F5F6F8'}}>
+
+      {/* ── TOPBAR ── */}
+      <div style={{background:'#0D1117',color:'#8892A4',fontSize:'.78rem',padding:'8px 0',borderBottom:'1px solid #1E2633'}}>
+        <div style={{maxWidth:'1160px',margin:'0 auto',padding:'0 24px',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'12px'}}>
+          <span>Japón Compacto · Import Operations Platform</span>
+          <span>Yokohama → Manzanillo → Interior MX · B2B Only</span>
+        </div>
+      </div>
+
+      {/* ── NAVBAR ── */}
+      <nav style={{position:'sticky',top:0,zIndex:100,background:'rgba(13,17,23,0.97)',backdropFilter:'blur(12px)',borderBottom:'1px solid #1E2633',padding:'0 24px'}}>
+        <div style={{maxWidth:'1160px',margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between',height:'68px',gap:'24px'}}>
+
+          {/* Brand */}
+          <div style={{display:'flex',alignItems:'center',gap:'10px',flexShrink:0}}>
+            <div style={{width:'36px',height:'36px',background:'#C8102E',borderRadius:'8px',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,fontSize:'1.1rem',color:'#fff'}}>JC</div>
+            <div>
+              <div style={{fontSize:'1.05rem',fontWeight:800,color:'#fff',letterSpacing:'-.02em'}}>Japón<span style={{color:'#C9A84C'}}>Compacto</span></div>
+              <div style={{fontSize:'.72rem',color:'#8892A4',fontWeight:600,letterSpacing:'.04em',textTransform:'uppercase'}}>Import Logistics Dashboard</div>
+            </div>
+          </div>
+
+          {/* Nav right */}
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+
+            {/* Select View dropdown */}
+            <div ref={dropRef} style={{position:'relative'}}>
+              <button
+                onClick={() => setDropOpen(o => !o)}
+                style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'.88rem',fontWeight:600,color:'#8892A4',padding:'6px 14px',borderRadius:'6px',background:'transparent',border:'none',cursor:'pointer',transition:'color .2s,background .2s'}}
+                onMouseOver={e => { e.currentTarget.style.color='#fff'; e.currentTarget.style.background='#1E2633'; }}
+                onMouseOut={e => { e.currentTarget.style.color='#8892A4'; e.currentTarget.style.background='transparent'; }}
+              >
+                {t.select_view} <span style={{fontSize:'.7rem',transition:'transform .2s',display:'inline-block',transform:dropOpen?'rotate(180deg)':'rotate(0deg)'}}>▾</span>
+              </button>
+              {dropOpen && (
+                <div style={{position:'absolute',top:'calc(100% + 6px)',left:0,background:'#111827',border:'1px solid #1E2633',borderRadius:'8px',minWidth:'210px',overflow:'hidden',zIndex:200,boxShadow:'0 8px 24px rgba(0,0,0,.4)'}}>
+                  <a href="index-en.html" style={{display:'block',padding:'10px 16px',fontSize:'.85rem',fontWeight:600,color:'#8892A4',textDecoration:'none'}}
+                    onMouseOver={e=>{e.currentTarget.style.color='#fff';e.currentTarget.style.background='#1E2633';}}
+                    onMouseOut={e=>{e.currentTarget.style.color='#8892A4';e.currentTarget.style.background='transparent';}}
+                  >📄 {t.home_page}</a>
+                  <div style={{display:'block',padding:'10px 16px',fontSize:'.85rem',fontWeight:700,color:'#C9A84C',background:'#1A2434',borderLeft:'3px solid #C8102E'}}>
+                    📊 {t.machinery_dashboard}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Language toggle */}
+            <button
+              onClick={() => setLang(l => l === 'en' ? 'es' : 'en')}
+              style={{display:'inline-flex',alignItems:'center',gap:'6px',background:'rgba(201,168,76,.12)',border:'1px solid rgba(201,168,76,.3)',color:'#C9A84C',fontSize:'.72rem',fontWeight:700,padding:'4px 12px',borderRadius:'100px',cursor:'pointer',transition:'background .2s'}}
+              onMouseOver={e=>e.currentTarget.style.background='rgba(201,168,76,.22)'}
+              onMouseOut={e=>e.currentTarget.style.background='rgba(201,168,76,.12)'}
+            >
+              {lang === 'en' ? '🇲🇽 ES' : '🇺🇸 EN'}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div style={{maxWidth:'1160px',margin:'0 auto',padding:'40px 24px 64px'}}>
+
+        {/* ── VOLATILITY DISCLAIMER ── */}
+        <div style={{marginBottom:'32px',background:'#FFFBEB',border:'2px solid #C9A84C',borderRadius:'12px',padding:'20px 24px',display:'flex',gap:'16px',alignItems:'flex-start'}}>
+          <div style={{color:'#C9A84C',fontSize:'1.4rem',flexShrink:0,marginTop:'2px'}}>⚠</div>
+          <div>
+            <div style={{fontWeight:700,color:'#7A5C00',fontSize:'.8rem',textTransform:'uppercase',letterSpacing:'.08em',marginBottom:'6px'}}>{t.disclaimer_title}</div>
+            <p style={{color:'#92400E',fontSize:'.88rem',lineHeight:1.7}}>{t.disclaimer_body}</p>
+          </div>
+        </div>
+
+        {/* ── PAGE TITLE ── */}
+        <div style={{marginBottom:'32px'}}>
+          <h1 style={{fontSize:'clamp(1.6rem,3vw,2.4rem)',fontWeight:800,color:'#0D1117',lineHeight:1.2,marginBottom:'8px'}}>{t.page_title}</h1>
+          <p style={{color:'#6B7280',fontSize:'.95rem'}}>{t.page_sub}</p>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+          {/* ── LEFT COLUMN: INPUTS ── */}
+          <div className="xl:col-span-1 space-y-5">
+
+            {/* Container Count */}
+            <div style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'24px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'16px'}}>
+                <div>
+                  <div style={{fontSize:'.72rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'4px'}}>{t.container_count}</div>
+                  <div style={{color:'#6B7280',fontSize:'.8rem'}}>{t.container_sub}</div>
+                </div>
+                <div style={{background:'#0D1117',color:'#fff',fontSize:'1.6rem',fontWeight:900,width:'56px',height:'56px',borderRadius:'10px',display:'flex',alignItems:'center',justifyContent:'center'}}>{containers}</div>
+              </div>
+              <input type="range" min="1" max="20" value={containers} onChange={e => setContainers(+e.target.value)} className="w-full"/>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:'.72rem',color:'#9CA3AF',marginTop:'4px'}}>
+                <span>1</span><span>10</span><span>20</span>
+              </div>
+            </div>
+
+            {/* Excavators per Container */}
+            <div style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'24px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'16px'}}>
+                <div>
+                  <div style={{fontSize:'.72rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'4px'}}>{t.excavators_label}</div>
+                  <div style={{color:'#6B7280',fontSize:'.8rem'}}>{t.excavators_sub}</div>
+                </div>
+                <div style={{background:'#0D1117',color:'#fff',fontSize:'1.6rem',fontWeight:900,width:'56px',height:'56px',borderRadius:'10px',display:'flex',alignItems:'center',justifyContent:'center'}}>{excsPerCont}</div>
+              </div>
+              <input type="range" min="1" max="4" value={excsPerCont} onChange={e => setExcsPerCont(+e.target.value)} className="w-full"/>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:'.72rem',color:'#9CA3AF',marginTop:'4px'}}>
+                <span>1</span><span>2</span><span>3</span><span>4</span>
+              </div>
+            </div>
+
+            {/* Total Excavators */}
+            <div style={{background:'linear-gradient(135deg,#0D1117,#1A3A5C)',borderRadius:'12px',padding:'24px',color:'#fff'}}>
+              <div style={{fontSize:'.72rem',fontWeight:700,color:'#8892A4',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'12px'}}>{t.total_excavators}</div>
+              <div style={{display:'flex',alignItems:'flex-end',gap:'10px',marginBottom:'4px'}}>
+                <div style={{fontSize:'3.2rem',fontWeight:900,lineHeight:1}}>{totalExcavators}</div>
+                <div style={{color:'#8892A4',fontSize:'.9rem',marginBottom:'8px'}}>{t.units}</div>
+              </div>
+              <div style={{color:'#8892A4',fontSize:'.78rem'}}>{containers} × {excsPerCont}</div>
+              <div style={{marginTop:'16px',paddingTop:'16px',borderTop:'1px solid rgba(255,255,255,.1)'}}>
+                <div style={{fontSize:'.72rem',color:'#8892A4',marginBottom:'4px'}}>{t.mock_auction}</div>
+                <div style={{color:'#C9A84C',fontWeight:700,fontSize:'1.1rem'}}>{fmtK(costs.auctionTotal)} USD</div>
+              </div>
+            </div>
+
+            {/* Destination */}
+            <div style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'24px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+              <div style={{fontSize:'.72rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'12px'}}>{t.inland_dest}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:'8px'}}>
+                {DESTINATIONS.map(d => {
+                  const rs = getRiskStyle(d.risk);
+                  const active = destId === d.id;
+                  return (
+                    <button
+                      key={d.id}
+                      onClick={() => setDestId(d.id)}
+                      style={{
+                        width:'100%',display:'flex',alignItems:'center',justifyContent:'space-between',
+                        padding:'10px 14px',borderRadius:'8px',cursor:'pointer',textAlign:'left',
+                        border: active ? '2px solid #0D1117' : '1.5px solid #D8DCE4',
+                        background: active ? '#F5F6F8' : '#fff',
+                        transition:'all .15s'
+                      }}
+                    >
+                      <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+                        <div style={{width:'8px',height:'8px',borderRadius:'50%',background: d.risk==='low'?'#1D6B3B':d.risk==='medium'?'#D97706':'#C8102E'}}></div>
+                        <span style={{fontWeight: active?700:600,fontSize:'.88rem',color: active?'#0D1117':'#374151'}}>{d.label}</span>
+                      </div>
+                      <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                        <span style={{fontSize:'.72rem',color:'#9CA3AF'}}>{d.km} km</span>
+                        <span style={{
+                          fontSize:'.68rem',fontWeight:700,padding:'2px 8px',borderRadius:'12px',
+                          background: d.risk==='low'?'#D4EDDA':d.risk==='medium'?'#FEF3C7':'#FDECEA',
+                          color: d.risk==='low'?'#1D6B3B':d.risk==='medium'?'#92400E':'#991B1B'
+                        }}>{d.risk==='low'?t.risk_low:d.risk==='medium'?t.risk_medium:t.risk_high}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Security Protocol */}
+            <div style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'24px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+              <div style={{fontSize:'.72rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'12px'}}>{t.security_title}</div>
+              <div style={{display:'flex',flexDirection:'column',gap:'10px'}}>
+                <label style={{display:'flex',alignItems:'flex-start',gap:'12px',padding:'14px',borderRadius:'10px',cursor:'pointer',border: security==='A'?'2px solid #C8102E':'1.5px solid #D8DCE4',background: security==='A'?'#FDECEA':'#fff'}}>
+                  <input type="radio" name="security" value="A" checked={security==='A'} onChange={()=>setSecurity('A')} style={{marginTop:'2px',accentColor:'#C8102E'}}/>
+                  <div>
+                    <div style={{fontWeight:700,fontSize:'.88rem',color:'#0D1117'}}>{t.opt_a_label}</div>
+                    <div style={{fontSize:'.75rem',color:'#6B7280',marginTop:'2px'}}>{t.opt_a_sub}</div>
+                  </div>
+                </label>
+                <label style={{display:'flex',alignItems:'flex-start',gap:'12px',padding:'14px',borderRadius:'10px',cursor:'pointer',border: security==='B'?'2px solid #1D6B3B':'1.5px solid #D8DCE4',background: security==='B'?'#D4EDDA':'#fff'}}>
+                  <input type="radio" name="security" value="B" checked={security==='B'} onChange={()=>setSecurity('B')} style={{marginTop:'2px',accentColor:'#1D6B3B'}}/>
+                  <div>
+                    <div style={{fontWeight:700,fontSize:'.88rem',color:'#0D1117'}}>{t.opt_b_label}</div>
+                    <div style={{fontSize:'.75rem',color:'#6B7280',marginTop:'2px'}}>{t.opt_b_sub}</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+          </div>{/* /left col */}
+
+          {/* ── RIGHT COLUMNS: RESULTS ── */}
+          <div className="xl:col-span-2 space-y-5">
+
+            {/* KPI Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { label: t.kpi_total_units,  value: totalExcavators,          suffix: t.excavators_label2, color: '#0D1117' },
+                { label: t.kpi_landed,        value: fmt(costs.landedPerUnit), suffix: t.usd,               color: '#1A3A5C' },
+                { label: t.kpi_capital,       value: fmtK(costs.auctionTotal), suffix: 'USD est.',           color: '#C9A84C' },
+                { label: t.kpi_security,      value: fmt(costs.securityCost),  suffix: security==='A'?t.armed_escort:t.insurance, color: security==='A'?'#C8102E':'#1D6B3B' },
+              ].map((kpi, i) => (
+                <div key={i} style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'20px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+                  <div style={{fontSize:'.68rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'8px'}}>{kpi.label}</div>
+                  <div style={{fontSize:'1.5rem',fontWeight:900,color:kpi.color,lineHeight:1}}>{kpi.value}</div>
+                  <div style={{fontSize:'.72rem',color:'#9CA3AF',marginTop:'4px'}}>{kpi.suffix}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Cost Breakdown */}
+            <div style={{background:'#fff',borderRadius:'12px',border:'1px solid #D8DCE4',padding:'24px',boxShadow:'0 1px 4px rgba(0,0,0,.07)'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'20px'}}>
+                <div style={{fontSize:'.72rem',fontWeight:700,color:'#6B7280',textTransform:'uppercase',letterSpacing:'.1em'}}>{t.cost_breakdown}</div>
+                <span style={{
+                  fontSize:'.72rem',fontWeight:700,padding:'3px 10px',borderRadius:'100px',
+                  background: dest.risk==='low'?'#D4EDDA':dest.risk==='medium'?'#FEF3C7':'#FDECEA',
+                  color: dest.risk==='low'?'#1D6B3B':dest.risk==='medium'?'#92400E':'#991B1B',
+                  border: dest.risk==='low'?'1px solid #A8D5B5':dest.risk==='medium'?'1px solid #FCD34D':'1px solid #FCA5A5'
+                }}>
+                  {dest.label} · {riskLabel}
+                </span>
+              </div>
+
+              <div style={{borderTop:'1px solid #F3F4F6'}}>
+                {[
+                  { label: t.auction_label,  val: costs.auctionTotal,  note: `${totalExcavators} × ${fmt(MOCK_AUCTION_PRICE)}`,  hl: false },
+                  { label: t.ocean_label,    val: costs.oceanTotal,    note: `${containers} × ${fmt(OCEAN_FREIGHT_PER_CONTAINER)}`, hl: false },
+                  { label: t.igi_label,      val: costs.igi,           note: t.on_cif,                                           hl: false },
+                  { label: t.dta_label,      val: costs.dta,           note: t.pct_cif,                                          hl: false },
+                  { label: t.broker_label,   val: costs.brokerTotal,   note: `${containers} × ${fmt(BROKER_FEE)}`,               hl: false },
+                  { label: t.port_label,     val: costs.portTotal,     note: `${containers} × ${fmt(PORT_HANDLING)}`,            hl: false },
+                  { label: `${t.inland_freight} ${dest.label}`, val: costs.freightTotal, note: `${dest.km} km`, hl: false },
+                  { label: security==='A'?t.armed_label:t.insurance_label, val: costs.securityCost, note: security==='A'?`${containers} × ${fmt(ESCORT_BASE)}`:t.pct_cif_val, hl: true },
+                ].map((row, i) => (
+                  <div key={i} style={{
+                    display:'flex',alignItems:'center',justifyContent:'space-between',
+                    padding:'10px 0',borderBottom:'1px solid #F3F4F6',
+                    ...(row.hl ? { background: security==='A'?'#FDECEA':'#D4EDDA', padding:'10px 12px', margin:'0 -12px', borderRadius:'6px' } : {})
+                  }}>
+                    <div>
+                      <span style={{fontSize:'.88rem',fontWeight:600,color: row.hl?(security==='A'?'#991B1B':'#1D6B3B'):'#374151'}}>{row.label}</span>
+                      <span style={{fontSize:'.72rem',color:'#9CA3AF',marginLeft:'8px'}}>{row.note}</span>
+                    </div>
+                    <span style={{fontWeight:700,fontSize:'.88rem',color: row.hl?(security==='A'?'#C8102E':'#1D6B3B'):'#0D1117'}}>{fmt(row.val)}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{marginTop:'16px',paddingTop:'16px',borderTop:'2px solid #0D1117',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div>
+                  <div style={{fontWeight:900,color:'#0D1117',fontSize:'1rem'}}>{t.total_landed}</div>
+                  <div style={{fontSize:'.72rem',color:'#9CA3AF'}}>{t.excl_iva} · {fmtK(costs.iva)} USD IVA</div>
+                </div>
+                <div style={{textAlign:'right'}}>
+                  <div style={{fontSize:'2rem',fontWeight:900,color:'#0D1117'}}>{fmt(costs.totalBeforeIva)}</div>
+                  <div style={{fontSize:'.72rem',color:'#9CA3AF',fontWeight:600}}>{t.usd}</div>
+                </div>
+              </div>
+
+              <div style={{marginTop:'12px',background:'#F5F6F8',borderRadius:'8px',padding:'12px 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <span style={{fontSize:'.8rem',color:'#6B7280',fontWeight:500}}>{t.landed_per_unit}</span>
+                <span style={{fontSize:'1rem',fontWeight:900,color:'#1A3A5C'}}>{fmt(costs.landedPerUnit)} <span style={{fontSize:'.72rem',fontWeight:400,color:'#9CA3AF'}}>USD / unit</span></span>
+              </div>
+            </div>
+
+            {/* AI Recommendation Panel */}
+            <div style={{
+              borderRadius:'12px',border: security==='A'?'2px solid #FCA5A5':'2px solid #A8D5B5',
+              padding:'24px',
+              background: security==='A'?'#FDECEA':'#D4EDDA'
+            }}>
+              <div style={{display:'flex',alignItems:'center',gap:'12px',marginBottom:'16px'}}>
+                <div style={{fontSize:'1.6rem'}}>{security==='A'?'⚠️':'✅'}</div>
+                <div>
+                  <div style={{fontSize:'.68rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'2px',color:security==='A'?'#C8102E':'#1D6B3B'}}>
+                    {t.risk_assessment} — {security==='A'?t.elevated:t.recommended_strat}
+                  </div>
+                  <div style={{fontWeight:800,fontSize:'.95rem',color:security==='A'?'#7F1D1D':'#1D4733'}}>
+                    {security==='A'?t.opt_a_warning_title:t.opt_b_rec_title}
+                  </div>
+                </div>
+              </div>
+
+              {security==='A' ? (
+                <div style={{display:'flex',flexDirection:'column',gap:'10px',fontSize:'.88rem',color:'#7F1D1D',lineHeight:1.7}}>
+                  <p>While armed escorts (Custodia Armada) provide a visible physical deterrent, this strategy introduces a significant and often overlooked operational risk on Mexican federal highways: <strong>high visibility actively signals to organized criminal networks that high-value cargo is in transit.</strong></p>
+                  <p>Armed convoys are a well-documented target profile for cargo theft syndicates operating in Colima, Michoacán, Jalisco, and the Bajío corridors. The presence of armed personnel creates a tactical confrontation scenario that escalates the probability of coordinated interception attempts — placing both the cargo <strong>and the transport crew at direct physical risk.</strong></p>
+                  <p style={{fontWeight:600,borderLeft:'3px solid #C8102E',paddingLeft:'12px'}}>
+                    For {dest.label} ({dest.km} km, {riskLabel}): the {fmt(costs.securityCost)} escort cost does not eliminate the risk of total cargo loss — it may amplify it.
+                  </p>
+                </div>
+              ) : (
+                <div style={{display:'flex',flexDirection:'column',gap:'10px',fontSize:'.88rem',color:'#1D4733',lineHeight:1.7}}>
+                  <p>Full cargo insurance (Seguro sobre valor total) is the <strong>strongly recommended strategy</strong> for high-value machinery imports on Mexican inland routes. This approach adopts a deliberately low-profile operational posture: standard freight carriers, no visible security markings, no armed personnel.</p>
+                  <p>This strategy <strong>completely protects the imported capital value</strong> in the event of theft, accident, or force majeure, while maintaining maximum operational discretion. Insurers specializing in heavy cargo provide All-Risk coverage with rapid claims processing.</p>
+                  <p style={{fontWeight:600,borderLeft:'3px solid #1D6B3B',paddingLeft:'12px'}}>
+                    For {dest.label} ({dest.km} km, {riskLabel}): the {fmt(costs.securityCost)} insurance premium provides full coverage on {fmt(costs.cifValue)} CIF value — {((costs.securityCost/costs.cifValue)*100).toFixed(2)}% of total cargo value.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Route Summary */}
+            <div style={{background:'#0D1117',borderRadius:'12px',padding:'24px',color:'#fff'}}>
+              <div style={{fontSize:'.72rem',fontWeight:700,color:'#8892A4',textTransform:'uppercase',letterSpacing:'.1em',marginBottom:'20px'}}>{t.route_summary}</div>
+              <div style={{display:'flex',alignItems:'center',marginBottom:'20px',gap:'4px'}}>
+                {['🏭 Yokohama','🚢 Pacific (28d)','⚓ Manzanillo',`🚛 ${dest.label}`].map((step,i,arr) => (
+                  <React.Fragment key={i}>
+                    <div style={{textAlign:'center',flexShrink:0}}>
+                      <div style={{fontSize:'.72rem',fontWeight:600,color:'#fff',whiteSpace:'nowrap'}}>{step}</div>
+                    </div>
+                    {i < arr.length-1 && <div style={{flex:1,height:'1px',background:'linear-gradient(90deg,#374151,#C9A84C)',minWidth:'16px',margin:'0 6px'}}></div>}
+                  </React.Fragment>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { label: t.containers_label, val: containers },
+                  { label: t.excavators_label2, val: totalExcavators },
+                  { label: t.inland_km,        val: `${dest.km} km` },
+                  { label: t.protocol,         val: security==='A'?t.armed_escort:t.insurance },
+                ].map((item,i) => (
+                  <div key={i} style={{background:'#1E2633',borderRadius:'8px',padding:'12px'}}>
+                    <div style={{fontSize:'.68rem',color:'#8892A4',marginBottom:'4px'}}>{item.label}</div>
+                    <div style={{fontWeight:700,color:'#fff'}}>{item.val}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>{/* /right col */}
+        </div>{/* /grid */}
+
+        {/* ── FOOTER ── */}
+        <div style={{marginTop:'48px',paddingTop:'24px',borderTop:'1px solid #D8DCE4',display:'flex',flexWrap:'wrap',justifyContent:'space-between',alignItems:'center',gap:'12px',fontSize:'.78rem',color:'#9CA3AF'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+            <Logo size={24}/>
+            <span style={{fontWeight:600,color:'#374151'}}>Japón Compacto</span>
+            <span>· {t.footer_platform}</span>
+          </div>
+          <div style={{display:'flex',gap:'24px'}}>
+            <span>📧 contacto@japoncompacto.com</span>
+            <span>📱 +1 587 723 6646</span>
+            <span>🏢 Monterrey, Nuevo León</span>
+          </div>
+        </div>
+
+      </div>{/* /max-width container */}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard/>);
+</script>
+</body>
+</html>
